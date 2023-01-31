@@ -1,16 +1,30 @@
-<Accordion@Accordion>
-    background_color: (0.98, 0.27, 0.16, 1)
-    background_normal: ''
-
 <Label@Label>
+    font_size: '30sp'
+
+<Spinner@Spinner>
     halign: 'center'
     valign: 'middle'
+    background_color: (0.98, 0.27, 0.16, 1)
+    background_normal: ''
 
 <TextInput@TextInput>
     multiline: 'False'
     halign: 'center'
     valign: 'middle'
     background_color: (.91, .91, .93, 1)
+
+<MyButton@Button>
+    halign: 'center'
+    valign: 'middle'
+    background_color: (0, 0, 0, 0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (0.98, 0.27, 0.16, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [20]
 
 <Container>
     r1: r1
@@ -30,8 +44,20 @@
     lbl_l2: lbl_l2
     lbl_l2_cent: lbl_l2_cent
 
+    destination: destination
+    destination_select: destination_select
+    tariff: tariff
+    tariff_select: tariff_select
+    passengers: passengers
+    passengers_select: passengers_select
+    cargo: cargo
+    cargo_select: cargo_select
+    btn_price: btn_price
+    price_select: price_select
 
-    font_size: 20
+    halign: 'center'
+    valign: 'middle'
+    padding: 10
     canvas.before:
         Color: 
             rgba: (0, 0.05, 0.1, 1.0)
@@ -89,29 +115,14 @@
                             text: 'км/сек'
 
                     BoxLayout:
-                        Button:
-                            text: 'Вычислить'
-                            halign: 'center'
-                            valign: 'middle'
-                            pos_hint: {'center_x': 0.5}
-                            size_hint: (.5, 1)
-                            background_color: (0, 0, 0, 0)
-                            background_normal: ''
-                            on_press: root.calculate()
-                            canvas.before:
-                                Color:
-                                    rgba: (0.98, 0.27, 0.16, 1)
-                                RoundedRectangle:
-                                    size: self.size
-                                    pos: self.pos
-                                    radius: [20]
-
-            
+                        MyButton:
+                            text: 'Вычислить' 
+                            on_release: root.calculate()                                    
 
                     BoxLayout:
                         Label:
                             id: lbl_orb2
-                            text: 'Длина орбиты объекта, млн км'
+                            text: 'Длина орбиты объекта ... млн км'
 
                     BoxLayout:
                         Label:
@@ -167,6 +178,70 @@
                         Label:
                             id: lbl_l2_cent
                             text: 'Это составляет ...% от его орбиты'
+
+            AccordionItem: 
+                title: 'Стоимость'
+                BoxLayout:
+                    padding: 30
+                    orientation: 'vertical'
+
+                    BoxLayout:
+                        Label:
+                            text: 'Рассчёт стоимости полёта'
+
+                    BoxLayout:
+                        padding: 3
+                        Spinner:
+                            id: destination
+                            text: 'Куда\nлетим?' 
+                            values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
+                            on_text: root.on_destination_select()
+                        Label:
+                            id: destination_select
+                            text: 'Цель назначения...'
+
+                    BoxLayout:
+                        padding: 3
+                        Spinner:
+                            id: tariff
+                            text: 'Выберите\nтариф' 
+                            values: 'простой', 'быстрый', 'супербыстрый'
+                            on_text: root.on_tariff_select()
+                        Label:
+                            id: tariff_select
+                            text: 'Тариф...'
+
+                    BoxLayout:
+                        padding: 3
+                        Spinner:
+                            id: passengers
+                            text: 'Количество\nпассажиров' 
+                            values: (str(n) for n in range(1, 21))
+                            on_text: root.on_passengers_select()
+                        Label:
+                            id: passengers_select
+                            text: '... пассажиров'
+
+                    BoxLayout:
+                        padding: 3
+                        Spinner:
+                            id: cargo
+                            text: 'Количество\nтонн груза' 
+                            values: (str(n) for n in range(1, 101))
+                            on_text: root.on_cargo_select()
+                        Label:
+                            id: cargo_select
+                            text: '... тонн груза'
+
+                    BoxLayout:
+                        padding: 3
+                        MyButton:
+                            id: btn_price
+                            text: 'Стоимость' 
+                            on_release: root.priced()
+                        Label:
+                            id: price_select
+                            text: 'Стоимость полёта:'
 
             AccordionItem: 
                 title: 'Мы'

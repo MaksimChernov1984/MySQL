@@ -1,6 +1,5 @@
 from kivy.app import App
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -9,6 +8,7 @@ from kivy.uix.widget import Widget
 
 
 class Container(Widget):
+    # параметры орбит
     def calculate(self):
         r1 = float(self.r1.text)
         r2 = float(self.r2.text)
@@ -40,6 +40,59 @@ class Container(Widget):
         self.lbl_t1_year.text = str('{0:,}'.format(t1_year).replace(',', ' '))+' год/лет'
         self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км'
         self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты'
+
+    
+    # стоимость полёта
+    def on_destination_select(self):
+        self.destination_select.text = 'Ваша цель: %s'%self.destination.text    
+
+    def on_tariff_select(self):
+        self.tariff_select.text = 'Ваш тариф: %s'%self.tariff.text
+
+    def on_passengers_select(self):
+        self.passengers_select.text = 'Число пассажиров: %s'%self.passengers.text
+
+    def on_cargo_select(self):
+        self.cargo_select.text = 'Число тонн груза: %s'%self.cargo.text
+
+    def priced(self):
+        
+        # коэффициенты
+        p = int(self.passengers.text)  # количество пассажиров
+        c = int(self.cargo.text)  # масса груза в тоннах
+        rub = 1_000_000  # рублей за единичный коэффициент
+        
+        # коэффициенты цели назначения
+        if self.destination.text == 'Луна':
+            d = 1
+        elif self.destination.text == 'Марс':
+            d = 2
+        elif self.destination.text == 'Церера':
+            d = 2.5
+        elif self.destination.text == 'Ганимед' or 'Ио' or 'Калисто' or 'Европа':
+            d = 3
+        elif self.destination.text == 'Меркурий' or 'Венера' or 'Титан':
+            d = 4
+        elif self.destination.text == 'Титания':
+            d = 5
+        elif self.destination.text == 'Тритон':
+            d = 6
+        elif self.destination.text == 'Плутон':
+            d = 7
+        elif self.destination.text == 'Эрида':
+            d = 8
+
+            # коэффициенты тарифа
+        if self.tariff.text == 'простой':
+            t = 1
+        elif self.tariff.text == 'быстрый':
+            t = 2
+        elif self.tariff.text == 'супербыстрый':
+            t = 3
+
+        price = d * p * c * t * rub  # без разделения на триады
+        price2 = '{0:,}'.format(price).replace(',', ' ')  # с разделением на триады      
+        self.price_select.text = price2
 
 class OurFlightApp(App):
     def build(self):
