@@ -8,18 +8,8 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 
-Window.clearcolor = (0, 0, 0.1, 1.0)
 
 class Container(Widget):
-
-    rad = ObjectProperty(None)
-    period = ObjectProperty(None)
-    dimention = ObjectProperty(None)
-    lbl_rad = ObjectProperty(None)
-    lbl_sec = ObjectProperty(None)
-    lbl_hour = ObjectProperty(None)
-    lbl_day = ObjectProperty(None)
-    lbl_year = ObjectProperty(None)
 
     def calculate(self):
         try:
