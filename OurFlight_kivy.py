@@ -22,10 +22,12 @@ class Container(Widget):
         v2_hour = round(v2_sec*3600)  # скорость объекта, км/ч
         v2_day = round(v2_sec*3600*24)  # скорость объекта, км/сут
         v2_year = round(v2_sec*3600*24*365)  # скорость объекта, км/год
-        t1_hour = round((r2-r1)*1000000/v1_hour)  # время движения ракеты, час
-        t1_day = round((r2-r1)*1000000/v1_day)  # время движения ракеты, сут
-        t1_year = round((r2-r1)*1000000/v1_year, 1)  # время движения ракеты, год
-        l2 = round(v2_hour*t1_hour/1000000)  # путь, пройденный объектом за время движения ракеты
+        t1_hour = round(abs(r2-r1)*1_000_000/v1_hour)  # время движения ракеты, час
+        t1_day = round(abs(r2-r1)*1_000_000/v1_day)  # время движения ракеты, сут
+        t1_year = round(abs(r2-r1)*1_000_000/v1_year, 1)  # время движения ракеты, год
+        t1_year_year = round(abs(r2-r1)*1000000//v1_year)  # время движения ракеты, полных лет
+        t1_year_mon = round(abs(t1_year - t1_year_year)*12)  # время движения ракеты, месяцев после полных лет
+        l2 = round(v2_hour*t1_hour/1_000_000)  # путь, пройденный объектом за время движения ракеты
         l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
 
         self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км'
@@ -38,8 +40,9 @@ class Container(Widget):
         self.lbl_t1_hour.text = str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
         self.lbl_t1_day.text = str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
         self.lbl_t1_year.text = str('{0:,}'.format(t1_year).replace(',', ' '))+' год/лет'
-        self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км'
-        self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты'
+        self.lbl_t1_year_mon.text = str('{0:,}'.format(t1_year_year).replace(',', ' '))+' лет '+str(t1_year_mon)+' мес.'
+        self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
+        self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
 
     
     # стоимость полёта

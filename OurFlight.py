@@ -1,14 +1,10 @@
-print('Полуось орбиты точки вылета, млн км')
-r1 = float(input()) 
+r1 = float(input('Полуось орбиты точки вылета, млн км  ')) 
 
-print('Полуось орбиты объекта назначения, млн км')
-r2 = float(input()) 
+r2 = float(input('Полуось орбиты объекта назначения, млн км  ')) 
 
-print('Скорость ракеты, км/сек')
-v1_sec = float(input()) 
+v1_sec = float(input('Скорость ракеты, км/сек  ')) 
 
-print('Скорость объекта, км/с')
-v2_sec = float(input()) 
+v2_sec = float(input('Скорость объекта, км/с  ')) 
 
 print()
 orb2 = round(r2*3.12*2)
@@ -35,14 +31,17 @@ print(str('{0:,}'.format(v2_day).replace(',', ' '))+' км/сут')
 print(str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год')
 
 print()
-t1_hour = round((r2-r1)*1000000/v1_hour)
-t1_day = round((r2-r1)*1000000/v1_day)
-t1_year = round((r2-r1)*1000000/v1_year)
+t1_hour = round(abs(r2-r1)*1000000/v1_hour)
+t1_day = round(abs(r2-r1)*1000000/v1_day)
+t1_year = round(abs(r2-r1)*1000000/v1_year, 1)
+t1_year_year = round(abs(r2-r1)*1000000//v1_year)
+t1_year_mon = round(abs(t1_year - t1_year_year)*12)
 
 print('Время движения ракеты до объекта:')
 print(str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.')
 print(str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.')
 print(str('{0:,}'.format(t1_year).replace(',', ' '))+' год/лет')
+print(str('{0:,}'.format(t1_year_year).replace(',', ' '))+' лет '+str(t1_year_mon)+' мес.')
 
 print()
 l2 = round(v2_hour*t1_hour/1000000)
