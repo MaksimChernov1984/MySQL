@@ -26,11 +26,17 @@ class Container(Widget):
         t1_day = round(abs(r2-r1)*1_000_000/v1_day)  # время движения ракеты, сут
         t1_year = round(abs(r2-r1)*1_000_000/v1_year, 1)  # время движения ракеты, год
         t1_year_year = round(abs(r2-r1)*1000000//v1_year)  # время движения ракеты, полных лет
+        if 0.05 < (t1_year_year/10 - t1_year_year//10) < 0.15:
+            t1_year_name = 'год'
+        elif 0.15 < (t1_year_year/10 - t1_year_year//10) < 0.45:
+            t1_year_name = 'года'
+        else:
+            t1_year_name = 'лет'
         t1_year_mon = round(abs(t1_year - t1_year_year)*12)  # время движения ракеты, месяцев после полных лет
         l2 = round(v2_hour*t1_hour/1_000_000)  # путь, пройденный объектом за время движения ракеты
         l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
 
-        self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км'
+        self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км.'
         self.lbl_v1_hour.text = str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
         self.lbl_v1_day.text = str('{0:,}'.format(v1_day).replace(',', ' '))+' км/сут'
         self.lbl_v1_year.text = str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год'
@@ -39,12 +45,13 @@ class Container(Widget):
         self.lbl_v2_year.text = str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год'
         self.lbl_t1_hour.text = str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
         self.lbl_t1_day.text = str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
-        self.lbl_t1_year.text = str('{0:,}'.format(t1_year).replace(',', ' '))+' год/лет'
-        self.lbl_t1_year_mon.text = str('{0:,}'.format(t1_year_year).replace(',', ' '))+' лет '+str(t1_year_mon)+' мес.'
+        self.lbl_t1_year.text = str('{0:,}'.format(t1_year).replace(',', ' '))+' '+str(t1_year_name)
+        self.lbl_t1_year_mon.text = str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
         self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
         self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
-
-    
+        print(t1_year_year)
+        print(t1_year_year/10 - t1_year_year//10)
+        
     # стоимость полёта
     def on_destination_select(self):
         self.destination_select.text = 'Ваша цель: %s'%self.destination.text    
