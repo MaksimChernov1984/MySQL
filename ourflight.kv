@@ -1,5 +1,8 @@
+<VBoxLayout@BoxLayout>
+    orientation: 'vertical'
+
 <Label@Label>
-    font_size: '20sp'
+    font_size: '15sp'
 
 <Spinner@Spinner>
     halign: 'center'
@@ -12,6 +15,7 @@
     halign: 'center'
     valign: 'middle'
     background_color: (.91, .91, .93, 1)
+    background_normal: ''
 
 <MyButton@Button>
     halign: 'center'
@@ -32,16 +36,9 @@
     v1_sec: v1_sec
     v2_sec: v2_sec
     lbl_orb2: lbl_orb2
-    lbl_v1_hour: lbl_v1_hour
-    lbl_v1_day: lbl_v1_day
-    lbl_v1_year: lbl_v1_year
-    lbl_v2_hour: lbl_v2_hour
-    lbl_v2_day: lbl_v2_day
-    lbl_v2_year: lbl_v2_year
-    lbl_t1_hour: lbl_t1_hour
-    lbl_t1_day: lbl_t1_day
-    lbl_t1_year: lbl_t1_year
-    lbl_t1_year_mon: lbl_t1_year_mon
+    lbl_v1: lbl_v1
+    lbl_v2: lbl_v2
+    lbl_t1: lbl_t1
     lbl_l2: lbl_l2
     lbl_l2_cent: lbl_l2_cent
 
@@ -66,128 +63,76 @@
             pos: self.pos
             size: self.size
 
-    BoxLayout:
-        orientation: 'vertical'
+    VBoxLayout:
         size: root.width, root.height
         Accordion:
             orientation: 'vertical'
 
             AccordionItem: 
-                title: 'Наш полёт'
+                title: 'Параметры'
 
-                BoxLayout:
-                    orientation: 'vertical'
-                    padding: 20
-
-                    BoxLayout:
-                        Label:
-                            text: 'НАШ ПОЛЁТ'
+                VBoxLayout:
+                    padding: 10
+                    Label:
+                        text: 'Рассчёт параметров полёта'
 
                     BoxLayout:
+                        padding:2
                         Label:
-                            text: 'Полуось орбиты\nточки вылета'
+                            text: 'Полуось орбиты\nточки вылета, млн км'
                         TextInput:
                             id: r1
-                        Label:
-                            text: 'млн км.'
 
                     BoxLayout:
+                        padding:2
                         Label:
-                            text: 'Полуось орбиты\nобъекта назначения'
+                            text: 'Полуось орбиты объекта\nназначения, млн км'
                         TextInput:
                             id: r2
-                        Label:
-                            text: 'млн км.'
 
                     BoxLayout:
+                        padding:2
                         Label:
-                            text: 'Скорость ракеты'
+                            text: 'Скорость ракеты,\nкм/сек'
                         TextInput:
                             id: v1_sec
-                        Label:
-                            text: 'км/сек'
                             
                     BoxLayout:
+                        padding:2
                         Label:
-                            text: 'Скорость объекта'
+                            text: 'Скорость объекта,\nкм/сек'
                         TextInput:
                             id: v2_sec
-                        Label:
-                            text: 'км/сек'
 
                     BoxLayout:
+                        padding: 2
                         MyButton:
                             text: 'Вычислить' 
-                            on_release: root.calculate()                                    
+                            on_release: root.calculate()  
 
-                    BoxLayout:
-                        Label:
-                            id: lbl_orb2
-                            text: 'Длина орбиты объекта ... млн км'
-
-                    BoxLayout:
-                        Label:
-                            text: 'Скорость ракеты'
-
-                    BoxLayout:
-                        Label:
-                            id: lbl_v1_hour
-                            text: 'км/час...'
-                        Label:
-                            id: lbl_v1_day
-                            text: 'км/сут...'
-                        Label:
-                            id: lbl_v1_year
-                            text: 'км/год...'
-
-                    BoxLayout:
-                        Label:
-                            text: 'Скорость объекта'
-
-                    BoxLayout:
-                        Label:
-                            id: lbl_v2_hour
-                            text: 'км/час...'
-                        Label:
-                            id: lbl_v2_day
-                            text: 'км/сут...'
-                        Label:
-                            id: lbl_v2_year
-                            text: 'км/год...'
-
-                    BoxLayout:
-                        Label:
-                            text: 'Время движения ракеты до объекта'
-
-                    BoxLayout:
-                        Label:
-                            id: lbl_t1_hour
-                            text: 'час...'
-                        Label:
-                            id: lbl_t1_day
-                            text: 'сут...'
-                        Label:
-                            id: lbl_t1_year
-                            text: 'лет...'
-                        Label:
-                            id: lbl_t1_year_mon
-                            text: 'лет и мес...'
-
-                    BoxLayout:
-                        Label:
-                            id: lbl_l2
-                            text: 'За время движения ракеты объект прошёл...'
-
-                    BoxLayout:
-                        Label:
-                            id: lbl_l2_cent
-                            text: 'Это составляет ...% от его орбиты'
-
+                    Label:
+                        id: lbl_orb2
+                        text: 'Длина орбиты объекта ... млн км.'
+                    Label:
+                        id: lbl_v1
+                        text: 'Скорость ракеты...'
+                    Label:
+                        id: lbl_v2
+                        text: 'Скорость объекта...'
+                    Label:
+                        id: lbl_t1
+                        text: 'Время движения ракеты до объекта...'
+                    Label:
+                        id: lbl_l2
+                        text: 'За время движения ракеты объект прошёл...'
+                    Label:
+                        id: lbl_l2_cent
+                        text: 'Это составляет ...% от его орбиты.'                               
+                        
             AccordionItem: 
                 title: 'Стоимость'
-                BoxLayout:
+                VBoxLayout:
                     padding: 30
-                    orientation: 'vertical'
 
                     BoxLayout:
                         Label:
@@ -243,12 +188,14 @@
                             id: btn_price
                             text: 'Стоимость' 
                             on_release: root.priced()
+                    BoxLayout:
                         Label:
                             id: price_select
                             text: 'Стоимость полёта:'
 
             AccordionItem: 
-                title: 'Мы'
+                title: 'Изобретатели'
                 BoxLayout:
+                    padding: 1
                     Image:
-                        source: ('images/rocket_pipik_slivik.jpg')
+                        source: ('images/rocket2.jpg')
