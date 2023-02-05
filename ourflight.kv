@@ -1,8 +1,22 @@
 <VBoxLayout@BoxLayout>
     orientation: 'vertical'
 
+<MyButton@Button>
+    halign: 'center'
+    valign: 'middle'
+    background_color: (1, 1, 1, 0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (0.98, 0.27, 0.16, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [20]
+
 <Label@Label>
-    font_size: '15sp'
+    font_size: '14sp'
+    halign: 'center'
 
 <Spinner@Spinner>
     halign: 'center'
@@ -17,18 +31,6 @@
     background_color: (.91, .91, .93, 1)
     background_normal: ''
 
-<MyButton@Button>
-    halign: 'center'
-    valign: 'middle'
-    background_color: (0, 0, 0, 0)
-    background_normal: ''
-    canvas.before:
-        Color:
-            rgba: (0.98, 0.27, 0.16, 1)
-        RoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [20]
 
 <Container>
     r1: r1
@@ -36,6 +38,7 @@
     v1_sec: v1_sec
     v2_sec: v2_sec
     lbl_orb2: lbl_orb2
+    spn_t: spn_t
     lbl_v1: lbl_v1
     lbl_v2: lbl_v2
     lbl_t1: lbl_t1
@@ -70,44 +73,52 @@
 
             AccordionItem: 
                 title: 'Параметры'
-
                 VBoxLayout:
-                    padding: 10
+                    padding: 20
                     Label:
                         text: 'Рассчёт параметров полёта'
 
                     BoxLayout:
-                        padding:2
+                        padding: 5
                         Label:
                             text: 'Полуось орбиты\nточки вылета, млн км'
                         TextInput:
                             id: r1
 
                     BoxLayout:
-                        padding:2
+                        padding: 5
                         Label:
                             text: 'Полуось орбиты объекта\nназначения, млн км'
                         TextInput:
                             id: r2
 
                     BoxLayout:
-                        padding:2
+                        padding: 5
                         Label:
                             text: 'Скорость ракеты,\nкм/сек'
                         TextInput:
                             id: v1_sec
                             
                     BoxLayout:
-                        padding:2
+                        padding: 5
                         Label:
                             text: 'Скорость объекта,\nкм/сек'
                         TextInput:
                             id: v2_sec
 
                     BoxLayout:
+                        padding: 5
+                        Label:
+                            text: 'Выберите размерность\nвремени'
+                        Spinner:
+                            id: spn_t
+                            text: 'Размерность времени'
+                            values: 'час', 'сутки', 'год'
+
+                    BoxLayout:
                         padding: 2
                         MyButton:
-                            text: 'Вычислить' 
+                            text: 'Вычислить'
                             on_release: root.calculate()  
 
                     Label:
@@ -118,7 +129,7 @@
                         text: 'Скорость ракеты...'
                     Label:
                         id: lbl_v2
-                        text: 'Скорость объекта...'
+                        text: 'Скорость объекта'
                     Label:
                         id: lbl_t1
                         text: 'Время движения ракеты до объекта...'
@@ -127,7 +138,7 @@
                         text: 'За время движения ракеты объект прошёл...'
                     Label:
                         id: lbl_l2_cent
-                        text: 'Это составляет ...% от его орбиты.'                               
+                        text: 'Это составляет ...% от его орбиты.'                              
                         
             AccordionItem: 
                 title: 'Стоимость'
@@ -186,7 +197,7 @@
                         padding: 3
                         MyButton:
                             id: btn_price
-                            text: 'Стоимость' 
+                            text: 'Стоимость'
                             on_release: root.priced()
                     BoxLayout:
                         Label:

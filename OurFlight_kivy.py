@@ -1,7 +1,8 @@
 from kivy.app import App
+from kivy.animation import Animation
 from kivy.core.window import Window
-from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
@@ -37,12 +38,27 @@ class Container(Widget):
         l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
 
         self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км.'
-        self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч, '+str('{0:,}'.format(v1_day).replace(',', ' '))+' км/сут, '+str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год.'
-        self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_hour).replace(',', ' '))+' км/ч, '+str('{0:,}'.format(v2_day).replace(',', ' '))+' км/сут, '+str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год.'
-        self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час., '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут., '+str('{0:,}'.format(t1_year).replace(',', ' '))+' '+str(t1_year_name)+', '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
         self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
         self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
-
+        if self.spn_t.text == 'час':
+            self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
+            self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_hour).replace(',', ' '))+' км/ч'
+            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
+        elif self.spn_t.text == 'сутки':
+            self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_day).replace(',', ' '))+' км/сут'
+            self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_day).replace(',', ' '))+' км/сут'
+            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
+        elif self.spn_t.text == 'год':
+            self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год.'
+            self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год.'
+            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
+        # if self.spn_t.text == 'час':
+        #     self.lbl_v1.text = '1'
+        #     self.lbl_v1.text = '2'
+        #     self.lbl_t1.text = '3'
+        # print(self.lbl_v1.text)
+        # print(self.lbl_v2.text)
+        # print(self.lbl_t1.text)
         
     # стоимость полёта
     def on_destination_select(self):
