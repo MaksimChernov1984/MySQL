@@ -73,7 +73,7 @@
     padding: 10
     canvas.before:
         Color: 
-            rgba: (0, 0.05, 0.1, 1.0)
+            rgba: (0, 0.05, 0.1, 1)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -87,6 +87,13 @@
                 title: 'Параметры'
                 VBoxLayout:
                     padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Line:
+                            width: 5
+                            rectangle: self.x, self.y, self.width, self.height
+                    
                     Label:
                         text: 'Рассчёт параметров полёта'
 
@@ -155,7 +162,13 @@
             AccordionItem: 
                 title: 'Стоимость'
                 VBoxLayout:
-                    padding: 30
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Line:
+                            width: 5
+                            rectangle: self.x, self.y, self.width, self.height
 
                     BoxLayout:
                         Label:
@@ -225,14 +238,20 @@
                         pos: self.pos
                         size: self.size
                 VBoxLayout:
-                    padding: 10
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Line:
+                            width: 5
+                            rectangle: self.x, self.y, self.width, self.height
                     Image:
                         source: ('images/rocket2.jpg')
                         size_hint: (4, 4)
                         pos_hint: {'center_x': 0.5, 'top': 1}
                     Label:
-                        text: 'Максим Чернов,\nпрограммное обеспечение.'
+                        text: '_______________________________________\nМаксим Чернов,\nпрограммное обеспечение.\n_______________________________________'
                     Label:
-                        text: 'Вячеслав Чернов,\nмонтаж оборудования.'
+                        text: 'Вячеслав Чернов,\nмонтаж оборудования.\n_______________________________________'
                     Label:
                         text: 'Дормидонт Пищалкин,\nэкономическое сопровождение.'
