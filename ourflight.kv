@@ -116,7 +116,7 @@
                             values: 'час', 'сутки', 'год'
 
                     BoxLayout:
-                        padding: 10
+                        padding: 5
                         MyButton:
                             text: 'Вычислить'
                             on_release: root.calculate()  
@@ -206,7 +206,21 @@
 
             AccordionItem: 
                 title: 'Изобретатели'
-                BoxLayout:
-                    padding: 1
+                canvas.before:
+                    Color: 
+                        rgba: (0, 0.05, 0.1, 1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                VBoxLayout:
+                    padding: 10
                     Image:
                         source: ('images/rocket2.jpg')
+                        size_hint: (4, 4)
+                        pos_hint: {'center_x': 0.5, 'top': 1}
+                    Label:
+                        text: 'Максим Чернов,\nпрограммное обеспечение.'
+                    Label:
+                        text: 'Вячеслав Чернов,\nмонтаж оборудования.'
+                    Label:
+                        text: 'Дормидонт Пищалкин,\nэкономическое сопровождение.'
