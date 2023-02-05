@@ -52,13 +52,7 @@ class Container(Widget):
             self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год.'
             self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год.'
             self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
-        # if self.spn_t.text == 'час':
-        #     self.lbl_v1.text = '1'
-        #     self.lbl_v1.text = '2'
-        #     self.lbl_t1.text = '3'
-        # print(self.lbl_v1.text)
-        # print(self.lbl_v2.text)
-        # print(self.lbl_t1.text)
+        
         
     # стоимость полёта
     def on_destination_select(self):
