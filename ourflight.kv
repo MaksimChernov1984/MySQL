@@ -8,7 +8,7 @@
     background_normal: ''
     canvas.before:
         Color:
-            rgba: (0.98, 0.27, 0.16, 1)
+            rgba: (0.7, 0.13, 0.13, 1)            
         RoundedRectangle:
             size: self.size
             pos: self.pos
@@ -21,15 +21,27 @@
 <Spinner@Spinner>
     halign: 'center'
     valign: 'middle'
-    background_color: (0.98, 0.27, 0.16, 1)
+    background_color: (0, 0.05, 0.1, 1)
     background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
 
 <TextInput@TextInput>
     multiline: 'False'
     halign: 'center'
     valign: 'middle'
-    background_color: (.91, .91, .93, 1)
+    background_color: (0, 0.05, 0.1, 1)
     background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
 
 
 <Container>
