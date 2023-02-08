@@ -35,13 +35,18 @@ t1_hour = round(abs(r2-r1)*1000000/v1_hour)
 t1_day = round(abs(r2-r1)*1000000/v1_day)
 t1_year = round(abs(r2-r1)*1000000/v1_year, 1)
 t1_year_year = round(abs(r2-r1)*1000000//v1_year)
+if 0.05 < (t1_year_year/10 - t1_year_year//10) < 0.15:
+    t1_year_name = 'год'
+elif 0.15 < (t1_year_year/10 - t1_year_year//10) < 0.45:
+    t1_year_name = 'года'
+else:
+    t1_year_name = 'лет'
 t1_year_mon = round(abs(t1_year - t1_year_year)*12)
 
 print('Время движения ракеты до объекта:')
 print(str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.')
 print(str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.')
-print(str('{0:,}'.format(t1_year).replace(',', ' '))+' год/лет')
-print(str('{0:,}'.format(t1_year_year).replace(',', ' '))+' лет '+str(t1_year_mon)+' мес.')
+print(str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.')
 
 print()
 l2 = round(v2_hour*t1_hour/1000000)
