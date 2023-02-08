@@ -1,9 +1,12 @@
+#:import Factory kivy.factory.Factory
+
 <VBoxLayout@BoxLayout>
     orientation: 'vertical'
 
 <MyButton@Button>
     halign: 'center'
     valign: 'middle'
+    color: (1, 0, 0, 1)
     background_color: (1, 1, 1, 0)
     background_normal: ''
     canvas.before:
@@ -16,6 +19,7 @@
 <Label@Label>
     font_size: '14sp'
     halign: 'center'
+    markup: True
 
 <Spinner@Spinner>
     halign: 'center'
@@ -28,6 +32,12 @@
         Line:
             width: 1
             rectangle: self.x, self.y, self.width, self.height
+    option_cls: Factory.sp
+    sync_height: True
+
+<sp@SpinnerOption>
+    color: 1, 1, 1, 1
+    background_color: 0, 0.05, 0.1, 1
 
 <TextInput@TextInput>
     multiline: 'False'
@@ -178,7 +188,7 @@
                         padding: 3
                         MyButton:
                             id: btn_price
-                            text: 'Стоимость'
+                            text: '[b]СТОИМОСТЬ[/b]'
                             on_release: root.priced()
                     BoxLayout:
                         Label:
@@ -239,7 +249,7 @@
                     BoxLayout:
                         padding: 5
                         MyButton:
-                            text: 'Вычислить'
+                            text: '[b]ВЫЧИСЛИТЬ[/b]'
                             on_release: root.calculate()  
 
                     Label:

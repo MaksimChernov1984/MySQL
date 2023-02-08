@@ -1,5 +1,4 @@
 from kivy.app import App
-from kivy.animation import Animation
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -43,15 +42,15 @@ class Container(Widget):
         if self.spn_t.text == 'час':
             self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
             self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_hour).replace(',', ' '))+' км/ч'
-            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
+            self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
         elif self.spn_t.text == 'сутки':
             self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_day).replace(',', ' '))+' км/сут'
             self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_day).replace(',', ' '))+' км/сут'
-            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
+            self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
         elif self.spn_t.text == 'год':
             self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год.'
             self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год.'
-            self.lbl_t1.text = 'Время движения ракеты до объекта '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
+            self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
         
         
     # стоимость полёта
