@@ -1,9 +1,4 @@
 from kivy.app import App
-from kivy.core.window import Window
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 
 
@@ -37,7 +32,7 @@ class Container(Widget):
         l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
 
         self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км.'
-        self.lbl_l2.text = 'За время движения ракеты объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
+        self.lbl_l2.text = 'За это время объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
         self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
         if self.spn_t.text == 'час':
             self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
