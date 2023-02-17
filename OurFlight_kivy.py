@@ -3,6 +3,26 @@ from kivy.uix.widget import Widget
 
 
 class Container(Widget):
+    # скорость из длины орбиты и периода обращения
+    def vel0(self):
+        if self.period0_time.text == 'час':
+            v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
+        elif self.period0_time.text == 'сут':
+            v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
+        elif self.period0_time.text == 'год':
+            v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
+        self.lbl_v0.text = str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
+
+    # перевод астрономические единиц в км
+    def ae(self):
+        ae = round(int(self.ae0.text) * 150)
+        self.lbl_ae.text = str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
+
+    # теорема Пифагора
+    def pifagor(self):
+        gipot = round(((int(self.cat1.text))**2 + (int(self.cat2.text))**2)**0.5)
+        self.lbl_gipot.text = str('{0:,}'.format(gipot).replace(',', ' '))
+
     # параметры орбит
     def calculate(self):
         r1 = float(self.r1.text)
