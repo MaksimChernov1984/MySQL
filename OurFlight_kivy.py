@@ -19,7 +19,7 @@ class Container(Widget):
     # перевод астрономические единиц в км
     def ae(self):
         try:
-            ae = round(int(self.ae0.text) * 150)
+            ae = round(float(self.ae0.text) * 150)
             self.lbl_ae.text = '    '+str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
         except:
             self.lbl_ae.text = '    Проверьте ввод.'
@@ -61,7 +61,7 @@ class Container(Widget):
             l2 = round(v2_hour*t1_hour/1_000_000)  # путь, пройденный объектом за время движения ракеты
             l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
 
-            self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' км.'
+            self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' млн км.'
             if self.spn_t.text == 'час':
                 self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
                 self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_hour).replace(',', ' '))+' км/ч'

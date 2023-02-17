@@ -13,7 +13,7 @@
         Color:
             rgba: (1, 0, 0, 1)
         Line:
-            width: 1
+            width: 2
             rectangle: self.x, self.y, self.width, self.height
 
 <Label@Label>
@@ -64,6 +64,17 @@
 
 
 <Container>
+    destination: destination
+    destination_select: destination_select
+    tariff: tariff
+    tariff_select: tariff_select
+    passengers: passengers
+    passengers_select: passengers_select
+    cargo: cargo
+    cargo_select: cargo_select
+    btn_price: btn_price
+    price_select: price_select
+
     rad0: rad0
     period0: period0
     period0_time: period0_time
@@ -85,17 +96,6 @@
     lbl_t1: lbl_t1
     lbl_l2: lbl_l2
     lbl_l2_cent: lbl_l2_cent
-
-    destination: destination
-    destination_select: destination_select
-    tariff: tariff
-    tariff_select: tariff_select
-    passengers: passengers
-    passengers_select: passengers_select
-    cargo: cargo
-    cargo_select: cargo_select
-    btn_price: btn_price
-    price_select: price_select
 
     halign: 'center'
     valign: 'middle'
@@ -144,96 +144,6 @@
                         text: '____________________________________________'
                     Label:
                         text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.' 
-
-            AccordionItem: 
-                title: '[b]Формулы[/b]'
-                canvas.before:
-                    Color: 
-                        rgba: (0, 0.05, 0.1, 1)
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
-
-                    BoxLayout:
-                        Label:
-                            text: '[b]Формулы для рассчёта траектории[/b]'
-                    
-                    BoxLayout:
-                        padding: 5
-                        RLabel:
-                            text: 'Радиус       .'
-                        TextInput:
-                            id: rad0
-                        LLabel:
-                            text: '         млн км'
-                    BoxLayout:
-                        padding: 5
-                        RLabel:
-                            text: 'Период           .'
-                        TextInput:
-                            id: period0
-                        Spinner:
-                            id: period0_time
-                            text: 'Размерность'
-                            values: ('час', 'сут', 'год')
-                    BoxLayout:
-                        padding: 5
-                        MyButton:
-                            text: '[b]Скорость[/b]'
-                            on_release: root.vel0()
-                        LLabel:
-                            id: lbl_v0
-                            text: '         Скорость...'
-                    BoxLayout:
-                        Label:
-                            text: '____________________________________'
-
-                    BoxLayout:
-                        padding: 5
-                        TextInput:
-                            id: ae0
-                        LLabel:
-                            text: '         а.е.'
-                    BoxLayout:
-                        padding: 5
-                        MyButton:
-                            text: '[b]В км[/b]'
-                            on_release: root.ae()
-                        LLabel:
-                            id: lbl_ae
-                            text: '         В млн км это...'
-                    BoxLayout:
-                        Label:
-                            text: '____________________________________'
-
-                    BoxLayout:
-                        padding: 5
-                        RLabel: 
-                            text: 'Катет 1          .'
-                        TextInput:
-                            id: cat1
-                    BoxLayout:
-                        padding: 5
-                        RLabel: 
-                            text: 'Катет 2          .'
-                        TextInput:
-                            id: cat2
-                    BoxLayout:
-                        padding: 5
-                        MyButton:
-                            text: '[b]Гипотенуза[/b]'
-                            on_release: root.pifagor()
-                        LLabel:
-                            id: lbl_gipot
-                            text: '         Гипотенуза...'
 
                         
             AccordionItem: 
@@ -305,6 +215,98 @@
                         Label:
                             id: price_select
                             text: 'Стоимость полёта:'
+
+
+            AccordionItem: 
+                title: '[b]Формулы[/b]'
+                canvas.before:
+                    Color: 
+                        rgba: (0, 0.05, 0.1, 1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                VBoxLayout:
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Line:
+                            width: 5
+                            rectangle: self.x, self.y, self.width, self.height
+
+                    BoxLayout:
+                        Label:
+                            text: '[b]Формулы для рассчёта траектории[/b]'
+                    
+                    BoxLayout:
+                        padding: 5
+                        RLabel:
+                            text: 'Радиус   .'
+                        TextInput:
+                            id: rad0
+                        LLabel:
+                            text: ' млн км'
+                    BoxLayout:
+                        padding: 5
+                        RLabel:
+                            text: 'Период   .'
+                        TextInput:
+                            id: period0
+                        Spinner:
+                            id: period0_time
+                            text: 'Размерность'
+                            values: ('час', 'сут', 'год')
+                    BoxLayout:
+                        padding: 5
+                        MyButton:
+                            text: '[b]Скорость[/b]'
+                            on_release: root.vel0()
+                        LLabel:
+                            id: lbl_v0
+                            text: ' Скорость...'
+                    BoxLayout:
+                        Label:
+                            text: '____________________________________'
+
+                    BoxLayout:
+                        padding: 5
+                        TextInput:
+                            id: ae0
+                        LLabel:
+                            text: ' а.е.'
+                    BoxLayout:
+                        padding: 5
+                        MyButton:
+                            text: '[b]В км[/b]'
+                            on_release: root.ae()
+                        LLabel:
+                            id: lbl_ae
+                            text: ' В млн км это...'
+                    BoxLayout:
+                        Label:
+                            text: '____________________________________'
+
+                    BoxLayout:
+                        padding: 5
+                        RLabel: 
+                            text: 'Катет 1  .'
+                        TextInput:
+                            id: cat1
+                    BoxLayout:
+                        padding: 5
+                        RLabel: 
+                            text: 'Катет 2  .'
+                        TextInput:
+                            id: cat2
+                    BoxLayout:
+                        padding: 5
+                        MyButton:
+                            text: '[b]Гипотенуза[/b]'
+                            on_release: root.pifagor()
+                        LLabel:
+                            id: lbl_gipot
+                            text: ' Гипотенуза...'
+
 
             AccordionItem: 
                 title: '[b]Параметры[/b]'
