@@ -7,7 +7,7 @@
     halign: 'center'
     valign: 'middle'
     color: (1, 0, 0, 1)
-    background_color: (1, 1, 1, 0)
+    background_color: (0, 0.05, 0.1, 1)
     background_normal: ''
     canvas.before:
         Color:
@@ -18,8 +18,11 @@
 
 <Label@Label>
     font_size: '14sp'
+    text_size: self.size
     halign: 'center'
+    valign: 'middle'
     markup: True
+    multiline: False
 
 <LLabel@Label>
     halign: 'left'
@@ -49,6 +52,7 @@
     multiline: 'False'
     halign: 'center'
     valign: 'middle'
+    size_hint_x: (0.5)
     background_color: (0, 0.05, 0.1, 1)
     background_normal: ''
     canvas.before:
@@ -109,7 +113,7 @@
             orientation: 'vertical' 
 
             AccordionItem: 
-                title: 'Изобретатели'
+                title: '[b]Изобретатели[/b]'
                 canvas.before:
                     Color: 
                         rgba: (0, 0.05, 0.1, 1)
@@ -142,7 +146,7 @@
                         text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.' 
 
             AccordionItem: 
-                title: 'Формулы'
+                title: '[b]Формулы[/b]'
                 canvas.before:
                     Color: 
                         rgba: (0, 0.05, 0.1, 1)
@@ -159,17 +163,21 @@
                             rectangle: self.x, self.y, self.width, self.height
 
                     BoxLayout:
-                        padding: 5
-                        RLabel:
-                            text: 'Радиус'
-                        TextInput:
-                            id: rad0
-                        LLabel:
-                            text: 'млн км'
+                        Label:
+                            text: '[b]Формулы для рассчёта траектории[/b]'
+                    
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Период'
+                            text: 'Радиус       .'
+                        TextInput:
+                            id: rad0
+                        LLabel:
+                            text: '         млн км'
+                    BoxLayout:
+                        padding: 5
+                        RLabel:
+                            text: 'Период           .'
                         TextInput:
                             id: period0
                         Spinner:
@@ -183,7 +191,7 @@
                             on_release: root.vel0()
                         LLabel:
                             id: lbl_v0
-                            text: 'Скорость...'
+                            text: '         Скорость...'
                     BoxLayout:
                         Label:
                             text: '____________________________________'
@@ -193,7 +201,7 @@
                         TextInput:
                             id: ae0
                         LLabel:
-                            text: 'а.е.'
+                            text: '         а.е.'
                     BoxLayout:
                         padding: 5
                         MyButton:
@@ -201,21 +209,21 @@
                             on_release: root.ae()
                         LLabel:
                             id: lbl_ae
-                            text: 'В млн км это...'
+                            text: '         В млн км это...'
                     BoxLayout:
                         Label:
                             text: '____________________________________'
 
                     BoxLayout:
                         padding: 5
-                        LLabel: 
-                            text: 'Катет 1'
+                        RLabel: 
+                            text: 'Катет 1          .'
                         TextInput:
                             id: cat1
                     BoxLayout:
                         padding: 5
-                        LLabel: 
-                            text: 'Катет 2'
+                        RLabel: 
+                            text: 'Катет 2          .'
                         TextInput:
                             id: cat2
                     BoxLayout:
@@ -225,11 +233,11 @@
                             on_release: root.pifagor()
                         LLabel:
                             id: lbl_gipot
-                            text: 'Гипотенуза...'
+                            text: '         Гипотенуза...'
 
                         
             AccordionItem: 
-                title: 'Стоимость'
+                title: '[b]Стоимость[/b]'
                 VBoxLayout:
                     padding: 20
                     canvas.before:
@@ -299,7 +307,7 @@
                             text: 'Стоимость полёта:'
 
             AccordionItem: 
-                title: 'Параметры'
+                title: '[b]Параметры[/b]'
                 VBoxLayout:
                     padding: 20
                     canvas.before:
@@ -315,35 +323,35 @@
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Полуось орбиты\nточки вылета, млн км'
+                            text: 'Полуось орб.старта, млн км    .'
                         TextInput:
                             id: r1
 
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Полуось орбиты объекта\nназначения, млн км'
+                            text: 'Полуось орб.финиша, млн км    .'
                         TextInput:
                             id: r2
 
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Скорость ракеты,\nкм/сек'
+                            text: 'Скорость ракеты км/сек   .'
                         TextInput:
                             id: v1_sec
                             
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Скорость объекта,\nкм/сек'
+                            text: 'Скорость объекта, км/сек .'
                         TextInput:
                             id: v2_sec
 
                     BoxLayout:
                         padding: 5
                         RLabel:
-                            text: 'Выберите размерность\nвремени'
+                            text: 'Размерность времени .'
                         Spinner:
                             id: spn_t
                             text: 'Размерность времени'
