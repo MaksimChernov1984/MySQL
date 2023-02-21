@@ -1,37 +1,10 @@
 from kivy.app import App
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
+from kivy.graphics import (Color, Line, Rectangle, Triangle, Ellipse)
 
 
 class Container(Widget):
-    # скорость из длины орбиты и периода обращения
-    def vel0(self):
-        try:
-            if self.period0_time.text == 'час':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
-            elif self.period0_time.text == 'сут':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
-            elif self.period0_time.text == 'год':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
-            self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
-        except:
-            self.lbl_v0.text = '    Проверьте ввод.'
-
-    # перевод астрономические единиц в км
-    def ae(self):
-        try:
-            ae = round(float(self.ae0.text) * 150)
-            self.lbl_ae.text = '    '+str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
-        except:
-            self.lbl_ae.text = '    Проверьте ввод.'
-
-    # теорема Пифагора
-    def pifagor(self):
-        try:
-            gipot = round(((int(self.cat1.text))**2 + (int(self.cat2.text))**2)**0.5)
-            self.lbl_gipot.text = '    '+str('{0:,}'.format(gipot).replace(',', ' '))
-        except:
-            self.lbl_gipot.text = '     Проверьте ввод.'
-
     # параметры орбит
     def calculate(self):
         try:
@@ -83,6 +56,37 @@ class Container(Widget):
             self.lbl_t1.text = 'Проверьте ввод.'
             self.lbl_l2.text = 'Проверьте ввод.'
             self.lbl_l2_cent.text = 'Проверьте ввод.'
+
+
+    # скорость из длины орбиты и периода обращения
+    def vel0(self):
+        try:
+            if self.period0_time.text == 'час':
+                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
+            elif self.period0_time.text == 'сут':
+                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
+            elif self.period0_time.text == 'год':
+                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
+            self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
+        except:
+            self.lbl_v0.text = '    Проверьте ввод.'
+
+    # перевод астрономические единиц в км
+    def ae(self):
+        try:
+            ae = round(float(self.ae0.text) * 150)
+            self.lbl_ae.text = '    '+str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
+        except:
+            self.lbl_ae.text = '    Проверьте ввод.'
+
+    # теорема Пифагора
+    def pifagor(self):
+        try:
+            gipot = round(((int(self.cat1.text))**2 + (int(self.cat2.text))**2)**0.5)
+            self.lbl_gipot.text = '    '+str('{0:,}'.format(gipot).replace(',', ' '))
+        except:
+            self.lbl_gipot.text = '     Проверьте ввод.'
+
         
     # стоимость полёта
     def on_destination_select(self):
@@ -137,6 +141,74 @@ class Container(Widget):
             self.price_select.text = price2
         except:
             self.price_select.text = 'Проверьте ввод.'
+
+    # рисуем ракету
+    def draw(self):
+        with self.canvas.after:
+            try:
+                self.canvas.after.clear()
+                centX = 550*0.5  # центр по оси X
+                centY = 200  # центр низа 1 ступени по оси Y
+                line_width = 1  # толщина линии
+                con_h = int(self.con_h.text)  # высота конуса
+                con_w = int(self.con_w.text)  # ширина конуса
+                h3 = int(self.h3.text)  # высота 3 ступени
+                h2 = int(self.h2.text)  # высота 2 ступени
+                h1 = int(self.h1.text)  # высота 1 ступени
+                side_h = int(self.side_h.text)  # высота бокового ускорителя
+                side_w = int(self.side_w.text)  # ширина бокового ускорителя
+                self.con = Line(points=(centX, centY+h1+h2+h3+con_h,
+                                        centX+con_w*0.6, centY+h1+h2+h3+con_h*0.5,
+                                        centX+con_w*0.6, centY+h1+h2+h3+con_h*0.1,
+                                        centX+con_w*0.5, centY+h1+h2+h3,
+                                        centX-con_w*0.5, centY+h1+h2+h3,
+                                        centX-con_w*0.6, centY+h1+h2+h3+con_h*0.1,
+                                        centX-con_w*0.6, centY+h1+h2+h3+con_h*0.5), close=True, width=line_width)  # конус
+                self.illuminator = Ellipse(pos=(centX-con_w*0.1, centY+h1+h2+h3+con_h*0.3), size=(con_w*0.2, con_w*0.2))  # иллюминатор
+                self.h3_rect = Line(points=(centX+con_w*0.5, centY+h1+h2+h3,
+                                            centX+con_w*0.5, centY+h1+h2,
+                                            centX-con_w*0.5, centY+h1+h2,
+                                            centX-con_w*0.5, centY+h1+h2+h3), close=True, width=line_width)  # 3 ступень
+                self.wing_left = Line(points=(centX-con_w*0.5, centY+h1+h2+h3*0.6,
+                                              centX-con_w*0.5, centY+h1+h2+h3*0.3,
+                                              centX-con_w*0.8, centY+h1+h2+h3*0.3), close=True, width=line_width)  # левое крыло
+                self.wing_right = Line(points=(centX+con_w*0.5, centY+h1+h2+h3*0.6,
+                                              centX+con_w*0.5, centY+h1+h2+h3*0.3,
+                                              centX+con_w*0.8, centY+h1+h2+h3*0.3), close=True, width=line_width)  # правое крыло
+                self.h2_rect = Line(points=(centX+con_w*0.55, centY+h1+h2,
+                                            centX+con_w*0.55, centY+h1,
+                                            centX-con_w*0.55, centY+h1,
+                                            centX-con_w*0.55, centY+h1+h2), close=True, width=line_width)  # 2 ступень
+                self.h1_rect = Line(points=(centX+con_w*0.6, centY+h1,
+                                            centX+con_w*0.6, centY,
+                                            centX-con_w*0.6, centY,
+                                            centX-con_w*0.6, centY+h1), close=True, width=line_width)  # 1 ступень
+                self.side_left_tri = Line(points=(centX-con_w*0.6-side_w*0.5, centY+side_h*1.3,
+                                                  centX-con_w*0.6, centY+side_h,
+                                                  centX-con_w*0.6-side_w, centY+side_h), close=True, width=line_width)  # кон.лев.бок.ускор.
+                self.side_left_rect = Line(points=(centX-con_w*0.6, centY+side_h,
+                                                   centX-con_w*0.6, centY,
+                                                   centX-con_w*0.6-side_w, centY,
+                                                   centX-con_w*0.6-side_w, centY+side_h), close=True, width=line_width)  # левый бок.ускор.
+                self.side_right_tri = Line(points=(centX+con_w*0.6+side_w*0.5, centY+side_h*1.3,
+                                                   centX+con_w*0.6, centY+side_h,
+                                                   centX+con_w*0.6+side_w, centY+side_h), close=True, width=line_width)  # кон.прав.бок.ускор.
+                self.side_right_rect = Line(points=(centX+con_w*0.6, centY+side_h,
+                                                   centX+con_w*0.6, centY,
+                                                   centX+con_w*0.6+side_w, centY,
+                                                   centX+con_w*0.6+side_w, centY+side_h), close=True, width=line_width)  #  правый бок.ускор.
+                self.side_left_duse_tri = Line(points=(centX-con_w*0.6-side_w*0.5, centY,
+                                                       centX-con_w*0.6-side_w*0.2, centY-h1*0.2,
+                                                       centX-con_w*0.6-side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # левый дюз
+                self.center_duse_tri = Line(points=(centX, centY,
+                                                    centX+side_w*0.3, centY-h1*0.2,
+                                                    centX-side_w*0.3, centY-h1*0.2), close=True, width=line_width)  # средний дюз
+                self.side_right_duse_tri = Line(points=(centX+con_w*0.6+side_w*0.5, centY,
+                                                        centX+con_w*0.6+side_w*0.2, centY-h1*0.2,
+                                                        centX+con_w*0.6+side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # правый дюз
+            except:
+                pass
+
 
 class OurFlightApp(App):
     def build(self):

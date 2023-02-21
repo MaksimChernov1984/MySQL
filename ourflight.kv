@@ -28,7 +28,11 @@
     halign: 'left'
 
 <RLabel@Label>
-    halign: 'right'  
+    halign: 'right' 
+
+<ScrollView>:
+    do_scroll_x: False
+    do_scroll_y: True 
 
 <Spinner@Spinner>
     halign: 'center'
@@ -64,6 +68,14 @@
 
 
 <Container>
+    con_h: con_h
+    con_w: con_w
+    h3: h3
+    h2: h2
+    h1: h1
+    side_h: side_h
+    side_w: side_w
+
     destination: destination
     destination_select: destination_select
     tariff: tariff
@@ -97,6 +109,7 @@
     lbl_l2: lbl_l2
     lbl_l2_cent: lbl_l2_cent
 
+    
     halign: 'center'
     valign: 'middle'
     padding: 10
@@ -143,7 +156,67 @@
                     Label:
                         text: '____________________________________________'
                     Label:
-                        text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.' 
+                        text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.'
+
+
+            AccordionItem: 
+                title: '[b]Ракета[/b]'
+                VBoxLayout:
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Line:
+                            width: 5
+                            rectangle: self.x, self.y, self.width, self.height
+                    BoxLayout:
+                        VBoxLayout:
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Выс.конуса'
+                                TextInput:
+                                    id: con_h
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Шир.конуса'
+                                TextInput:
+                                    id: con_w
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Выс. 3 ступени'
+                                TextInput:
+                                    id: h3
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Выс. 2 ступени'
+                                TextInput:
+                                    id: h2
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Выс. 1 ступени'
+                                TextInput:
+                                    id: h1
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Выс.бок.ускорителей'
+                                TextInput:
+                                    id: side_h
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Шир.бок.ускорителей'
+                                TextInput:
+                                    id: side_w
+                            BoxLayout:
+                                MyButton:
+                                    text: 'Чертим ракету'
+                                    on_release: root.draw()
+                        VBoxLayout:
+                            canvas:
+                                Color:
+                                    rgba: (0.31, 0.35, 0.35, 1)
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size      
 
                         
             AccordionItem: 
