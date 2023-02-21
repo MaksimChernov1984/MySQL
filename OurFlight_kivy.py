@@ -147,8 +147,8 @@ class Container(Widget):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
-                centX = 550*0.5  # центр по оси X
-                centY = 200  # центр низа 1 ступени по оси Y
+                centX = 500  # центр по оси X
+                centY = 400  # центр низа 1 ступени по оси Y
                 line_width = 1  # толщина линии
                 con_h = int(self.con_h.text)  # высота конуса
                 con_w = int(self.con_w.text)  # ширина конуса
@@ -157,6 +157,7 @@ class Container(Widget):
                 h1 = int(self.h1.text)  # высота 1 ступени
                 side_h = int(self.side_h.text)  # высота бокового ускорителя
                 side_w = int(self.side_w.text)  # ширина бокового ускорителя
+                n_dus = int(self.n_dus.text)
                 self.con = Line(points=(centX, centY+h1+h2+h3+con_h,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.5,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.1,
@@ -200,12 +201,13 @@ class Container(Widget):
                 self.side_left_duse_tri = Line(points=(centX-con_w*0.6-side_w*0.5, centY,
                                                        centX-con_w*0.6-side_w*0.2, centY-h1*0.2,
                                                        centX-con_w*0.6-side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # левый дюз
-                self.center_duse_tri = Line(points=(centX, centY,
-                                                    centX+side_w*0.3, centY-h1*0.2,
-                                                    centX-side_w*0.3, centY-h1*0.2), close=True, width=line_width)  # средний дюз
                 self.side_right_duse_tri = Line(points=(centX+con_w*0.6+side_w*0.5, centY,
                                                         centX+con_w*0.6+side_w*0.2, centY-h1*0.2,
                                                         centX+con_w*0.6+side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # правый дюз
+                for i_dus in range(1, n_dus+1):
+                    self.duse = Line(points=(centX-con_w*0.6+(con_w*1.2/(n_dus+1))*i_dus, centY,
+                                             centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus-side_w*0.3), centY-h1*0.2,
+                                             centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus+side_w*0.3), centY-h1*0.2), close=True, width=line_width)  # средние дюзы
             except:
                 pass
 

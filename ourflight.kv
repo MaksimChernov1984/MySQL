@@ -75,6 +75,7 @@
     h1: h1
     side_h: side_h
     side_w: side_w
+    n_dus: n_dus
 
     destination: destination
     destination_select: destination_select
@@ -206,6 +207,13 @@
                                     text: 'Шир.бок.ускорителей'
                                 TextInput:
                                     id: side_w
+                            BoxLayout:
+                                LLabel:
+                                    text: 'Кол-во сопел'
+                                Spinner:
+                                    id: n_dus
+                                    text: 'Кол-во'
+                                    values: (str(n) for n in range(1, 7))
                             BoxLayout:
                                 MyButton:
                                     text: 'Чертим ракету'
