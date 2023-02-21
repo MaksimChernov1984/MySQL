@@ -143,7 +143,7 @@ class Container(Widget):
             self.price_select.text = 'Проверьте ввод.'
 
     # рисуем ракету
-    def draw(self):
+    def draw_rocket(self):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
@@ -210,6 +210,11 @@ class Container(Widget):
                                              centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus+side_w*0.3), centY-h1*0.2), close=True, width=line_width)  # средние дюзы
             except:
                 pass
+
+    # стираем ракету
+    def clear_rocket(self):
+        with self.canvas.after:
+            self.canvas.after.clear()
 
 
 class OurFlightApp(App):

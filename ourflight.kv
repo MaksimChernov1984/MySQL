@@ -217,7 +217,11 @@
                             BoxLayout:
                                 MyButton:
                                     text: 'Чертим ракету'
-                                    on_release: root.draw()
+                                    on_release: root.draw_rocket()
+                            BoxLayout:
+                                MyButton:
+                                    text: 'Очистить'
+                                    on_release: root.clear_rocket()
                         VBoxLayout:
                             canvas:
                                 Color:
