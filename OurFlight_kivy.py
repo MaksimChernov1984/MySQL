@@ -1,7 +1,6 @@
 from kivy.app import App
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
-from kivy.graphics import (Color, Line, Rectangle, Triangle, Ellipse)
+from kivy.graphics import (Line, Ellipse)
 
 
 class Container(Widget):
@@ -18,8 +17,6 @@ class Container(Widget):
             v1_day = round(v1_sec*3600*24)  # скорость ракеты, км/сут
             v1_year = round(v1_sec*3600*24*365)  # скорость ракеты, км/год
             v2_hour = round(v2_sec*3600)  # скорость объекта, км/ч
-            v2_day = round(v2_sec*3600*24)  # скорость объекта, км/сут
-            v2_year = round(v2_sec*3600*24*365)  # скорость объекта, км/год
             t1_hour = round(abs(r2-r1)*1_000_000/v1_hour)  # время движения ракеты, час
             t1_day = round(abs(r2-r1)*1_000_000/v1_day)  # время движения ракеты, сут
             t1_year = round(abs(r2-r1)*1_000_000/v1_year, 1)  # время движения ракеты, год
@@ -36,23 +33,15 @@ class Container(Widget):
 
             self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' млн км.'
             if self.spn_t.text == 'час':
-                self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_hour).replace(',', ' '))+' км/ч'
-                self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_hour).replace(',', ' '))+' км/ч'
                 self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
             elif self.spn_t.text == 'сутки':
-                self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_day).replace(',', ' '))+' км/сут'
-                self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_day).replace(',', ' '))+' км/сут'
                 self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
             elif self.spn_t.text == 'год':
-                self.lbl_v1.text = 'Скорость ракеты '+str('{0:,}'.format(v1_year).replace(',', ' '))+' км/год.'
-                self.lbl_v2.text = 'Скорость объекта '+str('{0:,}'.format(v2_year).replace(',', ' '))+' км/год.'
                 self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
             self.lbl_l2.text = 'За это время объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
             self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
         except:
             self.lbl_orb2.text = 'Проверьте ввод.'
-            self.lbl_v1.text = 'Проверьте ввод.'
-            self.lbl_v2.text = 'Проверьте ввод.'
             self.lbl_t1.text = 'Проверьте ввод.'
             self.lbl_l2.text = 'Проверьте ввод.'
             self.lbl_l2_cent.text = 'Проверьте ввод.'
@@ -70,6 +59,19 @@ class Container(Widget):
             self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
         except:
             self.lbl_v0.text = '    Проверьте ввод.'
+
+    # перевод км/сек в другие единицы
+    def vel3(self):
+        try:
+            if self.spn_v3.text == 'км/час':
+                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600)).replace(',', ' '))+' км/ч'
+            elif self.spn_v3.text == 'км/сут':
+                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600*24)).replace(',', ' '))+' км/сут'
+            elif self.spn_v3.text == 'км/год':
+                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600*24*365)).replace(',', ' '))+' км/год'
+            print(self.lbl_v3.text)
+        except:
+            self.lbl_v3 = '    Проверьте ввод.'
 
     # перевод астрономические единиц в км
     def ae(self):

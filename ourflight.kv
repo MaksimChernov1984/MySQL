@@ -1,5 +1,26 @@
 #:import Factory kivy.factory.Factory
 
+
+<Accordion>
+    orientation: 'vertical' 
+<AccordionItem>
+    canvas.before:
+        Color: 
+            rgba: (0, 0.05, 0.1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<AccBoxLayout@BoxLayout>
+    orientation: 'vertical'
+    padding: 20
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Line:
+            width: 5
+            rectangle: self.x, self.y, self.width, self.height
+
 <VBoxLayout@BoxLayout>
     orientation: 'vertical'
 
@@ -29,10 +50,6 @@
 
 <RLabel@Label>
     halign: 'right' 
-
-<ScrollView>:
-    do_scroll_x: False
-    do_scroll_y: True 
 
 <Spinner@Spinner>
     halign: 'center'
@@ -92,6 +109,9 @@
     period0: period0
     period0_time: period0_time
     lbl_v0: lbl_v0
+    v3_sec: v3_sec
+    spn_v3: spn_v3
+    lbl_v3: lbl_v3
     ae0: ae0
     lbl_ae: lbl_ae
     cat1: cat1
@@ -104,8 +124,6 @@
     v2_sec: v2_sec
     lbl_orb2: lbl_orb2
     spn_t: spn_t
-    lbl_v1: lbl_v1
-    lbl_v2: lbl_v2
     lbl_t1: lbl_t1
     lbl_l2: lbl_l2
     lbl_l2_cent: lbl_l2_cent
@@ -124,24 +142,10 @@
     VBoxLayout:
         size: root.width, root.height
         Accordion:
-            orientation: 'vertical' 
 
             AccordionItem: 
                 title: '[b]Изобретатели[/b]'
-                canvas.before:
-                    Color: 
-                        rgba: (0, 0.05, 0.1, 1)
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
+                AccBoxLayout:
                     Image:
                         source: ('images/rocket2.jpg')
                         size_hint: (4, 4)
@@ -159,17 +163,9 @@
                     Label:
                         text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.'
 
-
             AccordionItem: 
                 title: '[b]Ракета[/b]'
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
+                AccBoxLayout:
                     BoxLayout:
                         VBoxLayout:
                             BoxLayout:
@@ -233,15 +229,7 @@
                         
             AccordionItem: 
                 title: '[b]Стоимость[/b]'
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
-
+                AccBoxLayout:
                     BoxLayout:
                         Label:
                             text: '[b]Рассчёт стоимости полёта[/b]'
@@ -304,21 +292,7 @@
 
             AccordionItem: 
                 title: '[b]Формулы[/b]'
-                canvas.before:
-                    Color: 
-                        rgba: (0, 0.05, 0.1, 1)
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
-
+                AccBoxLayout:
                     BoxLayout:
                         Label:
                             text: '[b]Формулы для рассчёта траектории[/b]'
@@ -349,6 +323,28 @@
                         LLabel:
                             id: lbl_v0
                             text: ' Скорость...'
+                    BoxLayout:
+                        Label:
+                            text: '____________________________________'
+
+                    BoxLayout:
+                        padding: 5
+                        RLabel:
+                            text: 'Скорость, км/сек '
+                        TextInput:
+                            id: v3_sec
+                        Spinner:
+                            id: spn_v3
+                            text: 'Размерность скорости'
+                            values: 'км/час', 'км/сут', 'км/год'
+                    BoxLayout:
+                        padding: 5
+                        MyButton:
+                            text: '[b]Перевод[/b]'
+                            on_release: root.vel3()
+                        LLabel:
+                            id: lbl_v3
+                            text: ' В других единицах...'
                     BoxLayout:
                         Label:
                             text: '____________________________________'
@@ -395,15 +391,7 @@
 
             AccordionItem: 
                 title: '[b]Параметры[/b]'
-                VBoxLayout:
-                    padding: 20
-                    canvas.before:
-                        Color:
-                            rgba: (1, 1, 1, 1)
-                        Line:
-                            width: 5
-                            rectangle: self.x, self.y, self.width, self.height
-                    
+                AccBoxLayout:                    
                     Label:
                         text: '[b]Рассчёт параметров полёта[/b]'
 
@@ -453,12 +441,6 @@
                     LLabel:
                         id: lbl_orb2
                         text: 'Длина орбиты объекта ... млн км.'
-                    LLabel:
-                        id: lbl_v1
-                        text: 'Скорость ракеты...'
-                    LLabel:
-                        id: lbl_v2
-                        text: 'Скорость объекта'
                     LLabel:
                         id: lbl_t1
                         text: 'Время движения ракеты до объекта...'
