@@ -22,9 +22,10 @@ class Container(Widget):
             t1_day = round(abs(r2-r1)*1_000_000/v1_day)  # время движения ракеты, сут
             t1_year = round(abs(r2-r1)*1_000_000/v1_year, 1)  # время движения ракеты, год
             t1_year_year = round(abs(r2-r1)*1000000//v1_year)  # время движения ракеты, полных лет
-            if 0.05 < (t1_year_year/10 - t1_year_year//10) < 0.15:
+            t1_YEAR = t1_year_year/10 - t1_year_year//10  # дробная часть количества лет
+            if 0.05 < t1_YEAR < 0.15:
                 t1_year_name = 'год'
-            elif 0.15 < (t1_year_year/10 - t1_year_year//10) < 0.45:
+            elif 0.15 < t1_YEAR < 0.45 or t1_YEAR not in [0.12, 0.13, 0.14]:
                 t1_year_name = 'года'
             else:
                 t1_year_name = 'лет'
@@ -206,8 +207,8 @@ class Container(Widget):
             rad02 = int(self.rad02.text)
             alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
             bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
-            t00 = int(self.t00.text) if self.p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
-            t02 = int(self.t02.text) if self.p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
+            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
+            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
 
             bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
