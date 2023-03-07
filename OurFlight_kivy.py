@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import (Line, Ellipse)
+import math
 
 
 class Container(Widget):
@@ -105,40 +106,20 @@ class Container(Widget):
 
     def priced(self):
         try:
-            # коэффициенты
+            d = self.destination.text
+            d_dict = {'Луна': 1, 'Марс': 2, 'Церера': 2.5, 'Ганимед': 3, 'Ио': 3, 'Калисто': 3, 'Европа': 3, 'Меркурий': 4,
+                      'Венера': 4, 'Титан': 4, 'Титания': 5, 'Тритон': 6, 'Плутон': 7, 'Эрида': 8}   # коэффициенты цели
+            if d in d_dict:
+                i_d = d_dict[d]
+            t = self.tariff.text
+            t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
+            if t in t_dict:
+                i_t = t_dict[t]
             p = int(self.passengers.text)  # количество пассажиров
             c = int(self.cargo.text)  # масса груза в тоннах
             rub = 1_000_000  # рублей за единичный коэффициент
-            
-            # коэффициенты цели назначения
-            if self.destination.text == 'Луна':
-                d = 1
-            elif self.destination.text == 'Марс':
-                d = 2
-            elif self.destination.text == 'Церера':
-                d = 2.5
-            elif self.destination.text == 'Ганимед' or 'Ио' or 'Калисто' or 'Европа':
-                d = 3
-            elif self.destination.text == 'Меркурий' or 'Венера' or 'Титан':
-                d = 4
-            elif self.destination.text == 'Титания':
-                d = 5
-            elif self.destination.text == 'Тритон':
-                d = 6
-            elif self.destination.text == 'Плутон':
-                d = 7
-            elif self.destination.text == 'Эрида':
-                d = 8
 
-                # коэффициенты тарифа
-            if self.tariff.text == 'простой':
-                t = 1
-            elif self.tariff.text == 'быстрый':
-                t = 2
-            elif self.tariff.text == 'супербыстрый':
-                t = 3
-
-            price = d * p * c * t * rub  # без разделения на триады
+            price = i_d * p * c * i_t * rub  # без разделения на триады
             price2 = '{0:,}'.format(price).replace(',', ' ')  # с разделением на триады      
             self.price_select.text = price2
         except:
@@ -159,7 +140,7 @@ class Container(Widget):
                 h1 = int(self.h1.text)  # высота 1 ступени
                 side_h = int(self.side_h.text)  # высота бокового ускорителя
                 side_w = int(self.side_w.text)  # ширина бокового ускорителя
-                n_dus = int(self.n_dus.text)
+                n_dus = int(self.n_dus.text)  # количество сопел
                 self.con = Line(points=(centX, centY+h1+h2+h3+con_h,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.5,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.1,
@@ -217,6 +198,32 @@ class Container(Widget):
     def clear_rocket(self):
         with self.canvas.after:
             self.canvas.after.clear()
+
+    # строим траекторию
+    def pathed(self):
+        try:
+            rad01 = int(self.rad01.text)
+            rad02 = int(self.rad02.text)
+            alf = int(self.alf.text)*3.14/180  # угол начального положения ракеты в радианах
+            bet1 = int(self.bet1.text)*3.14/180  # угол начального положения объекта в радианах
+            t00 = int(self.t00.text)
+            t02 = int(self.t02.text)
+            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
+
+            l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
+                      ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
+            self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
+            self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
+            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
+            if bet2 >= 6.28319:
+                bet2 = bet2%6.28319
+            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:
+                acos0 = -acos0 
+            self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
+        except:
+            self.lbl_l1.text = 'Проверьте ввод.'
+            self.lbl_v1.text = 'Проверьте ввод.'
+            self.lbl_bet2.text = 'Проверьте ввод.'
 
 
 class OurFlightApp(App):

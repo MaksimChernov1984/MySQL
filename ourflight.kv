@@ -85,6 +85,16 @@
 
 
 <Container>
+    alf: alf
+    bet1: bet1
+    rad01: rad01
+    rad02: rad02
+    t00: t00
+    t02: t02
+    lbl_l1: lbl_l1
+    lbl_v1: lbl_v1
+    lbl_bet2: lbl_bet2
+
     con_h: con_h
     con_w: con_w
     h3: h3
@@ -144,24 +154,61 @@
         Accordion:
 
             AccordionItem: 
-                title: '[b]Изобретатели[/b]'
+                title: '[b]Траектория[/b]'
                 AccBoxLayout:
-                    Image:
-                        source: ('images/rocket2.jpg')
-                        size_hint: (4, 4)
-                        pos_hint: {'center_x': 0.5, 'top': 1}
-                    Label:
-                        text: '____________________________________________'
-                    Label:
-                        text: '[b]Максим Чернов[/b],\nпрограммное обеспечение.'
-                    Label:
-                        text: '____________________________________________'
-                    Label:
-                        text: '[b]Вячеслав Чернов[/b],\nмонтаж оборудования.'
-                    Label:
-                        text: '____________________________________________'
-                    Label:
-                        text: '[b]Дормидонт Пищалкин[/b],\nэкономические рассчёты.'
+                    
+                    VBoxLayout:
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Угол старта, градусы'
+                            TextInput:
+                                id: alf
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Угол объекта, градусы'
+                            TextInput:
+                                id: bet1
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Радиус старта, млн.км'
+                            TextInput:
+                                id: rad01
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Радиус объекта, млн.км'
+                            TextInput:
+                                id: rad02
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Период обращения, сут.'
+                            TextInput:
+                                id: t00
+                        BoxLayout:
+                            padding: 3
+                            RLabel: 
+                                text: 'Рассчётное время, сут.'
+                            TextInput:
+                                id: t02
+                    VBoxLayout:
+                        MyButton:
+                            text: 'Траектория'
+                            on_release: root.pathed()
+                        Label:
+                            text: 'Длина пути ракеты...'
+                            id: lbl_l1
+                        Label:
+                            text: 'Рекомендуемая скорость ракеты...'
+                            id: lbl_v1
+                        Label:
+                            text: 'Направление ракеты...'
+                            id: lbl_bet2
+                    
+                    
 
             AccordionItem: 
                 title: '[b]Ракета[/b]'
