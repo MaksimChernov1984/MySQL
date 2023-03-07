@@ -1,7 +1,7 @@
+import math
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import (Line, Ellipse)
-import math
 
 
 class Container(Widget):
@@ -204,20 +204,20 @@ class Container(Widget):
         try:
             rad01 = int(self.rad01.text)
             rad02 = int(self.rad02.text)
-            alf = int(self.alf.text)*3.14/180  # угол начального положения ракеты в радианах
-            bet1 = int(self.bet1.text)*3.14/180  # угол начального положения объекта в радианах
-            t00 = int(self.t00.text)
-            t02 = int(self.t02.text)
-            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
+            alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
+            bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
+            t00 = int(self.t00.text) if self.p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
+            t02 = int(self.t02.text) if self.p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
 
+            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
                       ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
             self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
             self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
             acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
-            if bet2 >= 6.28319:
+            if bet2 >= 6.28319:  # если объект прошёл больше одного круга
                 bet2 = bet2%6.28319
-            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:
+            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
                 acos0 = -acos0 
             self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
         except:

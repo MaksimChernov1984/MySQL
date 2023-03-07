@@ -90,7 +90,9 @@
     rad01: rad01
     rad02: rad02
     t00: t00
+    p00: p00
     t02: t02
+    p02: p02
     lbl_l1: lbl_l1
     lbl_v1: lbl_v1
     lbl_bet2: lbl_bet2
@@ -185,15 +187,23 @@
                         BoxLayout:
                             padding: 3
                             RLabel: 
-                                text: 'Период обращения, сут.'
+                                text: 'Период обращения'
                             TextInput:
                                 id: t00
+                            Spinner:
+                                text: 'размерность'
+                                id: p00
+                                values: 'сут', 'год'
                         BoxLayout:
                             padding: 3
                             RLabel: 
-                                text: 'Рассчётное время, сут.'
+                                text: 'Рассчётное время'
                             TextInput:
                                 id: t02
+                            Spinner:
+                                text: 'размерность'
+                                id: p02
+                                values: 'сут', 'год'
                     VBoxLayout:
                         MyButton:
                             text: 'Траектория'
