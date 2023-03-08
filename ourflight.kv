@@ -119,10 +119,9 @@
     price_select: price_select
 
     rad: rad
-    lbl_orb: lbl_orb
-    rad0: rad0
     period0: period0
     period0_time: period0_time
+    lbl_orb: lbl_orb
     lbl_v0: lbl_v0
     v3_sec: v3_sec
     spn_v3: spn_v3
@@ -349,24 +348,6 @@
                 TextInput:
                     id: rad
             HBoxLayout:
-                MyButton:
-                    text: '[b]ДЛИНА ОКРУЖНОСТИ[/b]'
-                    on_release: root.circum()
-                LLabel:
-                    id: lbl_orb
-                    text: ' Длина окружности...'
-            HBoxLayout:
-                Label:
-                    text: '____________________________________'
-            
-            HBoxLayout:
-                RLabel:
-                    text: 'Радиус   .'
-                TextInput:
-                    id: rad0
-                LLabel:
-                    text: ' млн км'
-            HBoxLayout:
                 RLabel:
                     text: 'Период   .'
                 TextInput:
@@ -375,6 +356,13 @@
                     id: period0_time
                     text: 'Размерность'
                     values: ('час', 'сут', 'год')
+            HBoxLayout:
+                MyButton:
+                    text: '[b]ДЛИНА ОКРУЖНОСТИ[/b]'
+                    on_release: root.circum()
+                LLabel:
+                    id: lbl_orb
+                    text: ' Длина окружности...'
             HBoxLayout:
                 MyButton:
                     text: '[b]СКОРОСТЬ[/b]'

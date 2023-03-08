@@ -11,7 +11,7 @@ class Container(TabbedPanel):
         try:
             rad = float(self.rad.text)
             orb = round(rad*3.12*2)  # длина орбиты объекта
-            self.lbl_orb.text = 'Длина орбиты '+str('{0:,}'.format(orb).replace(',', ' '))+' млн км.'
+            self.lbl_orb.text = '   '+str('{0:,}'.format(orb).replace(',', ' '))+' млн км.'
         except:
             self.lbl_orb.text = 'Проверьте ввод.'
 
@@ -19,11 +19,11 @@ class Container(TabbedPanel):
     def vel0(self):
         try:
             if self.period0_time.text == 'час':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
             elif self.period0_time.text == 'сут':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
             elif self.period0_time.text == 'год':
-                v0 = round(((int(self.rad0.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
             self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
         except:
             self.lbl_v0.text = '    Проверьте ввод.'
@@ -31,15 +31,14 @@ class Container(TabbedPanel):
     # перевод км/сек в другие единицы
     def vel3(self):
         try:
-            if self.spn_v3.text == 'км/час':
-                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600)).replace(',', ' '))+' км/ч'
-            elif self.spn_v3.text == 'км/сут':
-                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600*24)).replace(',', ' '))+' км/сут'
-            elif self.spn_v3.text == 'км/год':
-                self.lbl_v3.text = ' '+str('{0:,}'.format(round(float(self.v3_sec.text)*3600*24*365)).replace(',', ' '))+' км/год'
-            print(self.lbl_v3.text)
+            v3_sec = int(self.v3_sec.text)
+            v3 = self.spn_v3.text
+            v3_dict = {'км/час': 1, 'км/сут': 24, 'км/год': 24*365}
+            if v3 in v3_dict:
+                i_v3 = v3_dict[v3]
+            self.lbl_v3.text = '    '+str('{0:,}'.format(round(float(v3_sec)*3600*i_v3)).replace(',', ' '))+' '+str(v3)
         except:
-            self.lbl_v3 = '    Проверьте ввод.'
+            self.lbl_v3.text = '    Проверьте ввод.'
 
     # перевод астрономические единиц в км
     def ae(self):
