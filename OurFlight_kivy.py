@@ -1,53 +1,19 @@
 import math
 from kivy.app import App
+from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.widget import Widget
 from kivy.graphics import (Line, Ellipse)
 
 
-class Container(Widget):
+class Container(TabbedPanel):
     # параметры орбит
-    def calculate(self):
+    def circum(self):
         try:
-            r1 = float(self.r1.text)
-            r2 = float(self.r2.text)
-            v1_sec = float(self.v1_sec.text)
-            v2_sec = float(self.v2_sec.text)
-
-            orb2 = round(r2*3.12*2)  # длина орбиты объекта
-            v1_hour = round(v1_sec*3600)  # скорость ракеты, км/ч
-            v1_day = round(v1_sec*3600*24)  # скорость ракеты, км/сут
-            v1_year = round(v1_sec*3600*24*365)  # скорость ракеты, км/год
-            v2_hour = round(v2_sec*3600)  # скорость объекта, км/ч
-            t1_hour = round(abs(r2-r1)*1_000_000/v1_hour)  # время движения ракеты, час
-            t1_day = round(abs(r2-r1)*1_000_000/v1_day)  # время движения ракеты, сут
-            t1_year = round(abs(r2-r1)*1_000_000/v1_year, 1)  # время движения ракеты, год
-            t1_year_year = round(abs(r2-r1)*1000000//v1_year)  # время движения ракеты, полных лет
-            t1_YEAR = t1_year_year/10 - t1_year_year//10  # дробная часть количества лет
-            if 0.05 < t1_YEAR < 0.15:
-                t1_year_name = 'год'
-            elif 0.15 < t1_YEAR < 0.45 or t1_YEAR not in [0.12, 0.13, 0.14]:
-                t1_year_name = 'года'
-            else:
-                t1_year_name = 'лет'
-            t1_year_mon = round(abs(t1_year - t1_year_year)*12)  # время движения ракеты, месяцев после полных лет
-            l2 = round(v2_hour*t1_hour/1_000_000)  # путь, пройденный объектом за время движения ракеты
-            l2_cent = round(l2*100/orb2)  # процент от длины орбиты объекта, пройденный им
-
-            self.lbl_orb2.text = 'Длина орбиты объекта '+str('{0:,}'.format(orb2).replace(',', ' '))+' млн км.'
-            if self.spn_t.text == 'час':
-                self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_hour).replace(',', ' '))+' час.'
-            elif self.spn_t.text == 'сутки':
-                self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_day).replace(',', ' '))+' сут.'
-            elif self.spn_t.text == 'год':
-                self.lbl_t1.text = 'Время движения ракеты '+str('{0:,}'.format(t1_year_year).replace(',', ' '))+' '+str(t1_year_name)+' '+str(t1_year_mon)+' мес.'
-            self.lbl_l2.text = 'За это время объект прошёл '+str('{0:,}'.format(l2).replace(',', ' '))+' млн км.'
-            self.lbl_l2_cent.text = 'Это составляет '+str(l2_cent)+' % от его орбиты.'
+            rad = float(self.rad.text)
+            orb = round(rad*3.12*2)  # длина орбиты объекта
+            self.lbl_orb.text = 'Длина орбиты '+str('{0:,}'.format(orb).replace(',', ' '))+' млн км.'
         except:
-            self.lbl_orb2.text = 'Проверьте ввод.'
-            self.lbl_t1.text = 'Проверьте ввод.'
-            self.lbl_l2.text = 'Проверьте ввод.'
-            self.lbl_l2_cent.text = 'Проверьте ввод.'
-
+            self.lbl_orb.text = 'Проверьте ввод.'
 
     # скорость из длины орбиты и периода обращения
     def vel0(self):

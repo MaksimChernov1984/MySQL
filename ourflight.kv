@@ -1,18 +1,12 @@
 #:import Factory kivy.factory.Factory
 
-
-<Accordion>
-    orientation: 'vertical'
-
-<AccBoxLayout@BoxLayout>
-    orientation: 'vertical'
-    padding: 20
+<BoxLayout>
     canvas.before:
-        Color:
-            rgba: (1, 1, 1, 1)
-        Line:
-            width: 5
-            rectangle: self.x, self.y, self.width, self.height
+        Color: 
+            rgba: (0, 0.05, 0.1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
 <HBoxLayout@BoxLayout>
     padding: 3
@@ -65,6 +59,17 @@
     color: 1, 1, 1, 1
     background_color: 0, 0.05, 0.1, 1
 
+<TabbedPanelItem>
+    background_color: (0.4, 0.55, 0.56, 1)
+    background_normal: ''
+    color: (1, 1, 1, 1)
+    canvas.before:
+        Color:
+            rgba: (1, 0, 0, 1)
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
 <TextInput@TextInput>
     multiline: 'False'
     halign: 'center'
@@ -113,6 +118,8 @@
     btn_price: btn_price
     price_select: price_select
 
+    rad: rad
+    lbl_orb: lbl_orb
     rad0: rad0
     period0: period0
     period0_time: period0_time
@@ -126,357 +133,309 @@
     cat2: cat2
     lbl_gipot: lbl_gipot
 
-    r1: r1
-    r2: r2
-    v1_sec: v1_sec
-    v2_sec: v2_sec
-    lbl_orb2: lbl_orb2
-    spn_t: spn_t
-    lbl_t1: lbl_t1
-    lbl_l2: lbl_l2
-    lbl_l2_cent: lbl_l2_cent
-
     
     halign: 'center'
     valign: 'middle'
     padding: 10
     canvas.before:
         Color: 
-            rgba: (0, 0.05, 0.1, 1)
+            rgba: (1, 1, 1, 1)
         Rectangle:
             pos: self.pos
             size: self.size
 
-    VBoxLayout:
-        padding: 0
-        size: root.width, root.height
-        Accordion:
+    do_default_tab: False
 
-            AccordionItem: 
-                title: '[b]Траектория[/b]'
-                AccBoxLayout:
-                    
-                    VBoxLayout:
-                        HBoxLayout:
-                            Label:
-                                text: '[b]Рассчёт траектории полёта[/b]'
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Угол старта, градусы'
-                            TextInput:
-                                id: alf
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Угол объекта, градусы'
-                            TextInput:
-                                id: bet1
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Радиус старта, млн.км'
-                            TextInput:
-                                id: rad01
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Радиус объекта, млн.км'
-                            TextInput:
-                                id: rad02
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Период обращения'
-                            TextInput:
-                                id: t00
-                            Spinner:
-                                text: 'размерность'
-                                id: spn_p00
-                                values: 'сут', 'год'
-                        HBoxLayout:
-                            RLabel: 
-                                text: 'Рассчётное время'
-                            TextInput:
-                                id: t02
-                            Spinner:
-                                text: 'размерность'
-                                id: spn_p02
-                                values: 'сут', 'год'
-                    VBoxLayout:
-                        MyButton:
-                            text: 'Траектория'
-                            on_release: root.pathed()
-                        Label:
-                            text: 'Длина пути ракеты...'
-                            id: lbl_l1
-                        Label:
-                            text: 'Рекомендуемая скорость ракеты...'
-                            id: lbl_v1
-                        Label:
-                            text: 'Направление ракеты...'
-                            id: lbl_bet2
-                    
-                    
+    TabbedPanelItem:
+        text: 'Траектория'
 
-            AccordionItem: 
-                title: '[b]Ракета[/b]'
-                AccBoxLayout:
-                    BoxLayout:
-                        VBoxLayout:
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Выс.конуса'
-                                TextInput:
-                                    id: con_h
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Шир.конуса'
-                                TextInput:
-                                    id: con_w
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Выс. 3 ступени'
-                                TextInput:
-                                    id: h3
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Выс. 2 ступени'
-                                TextInput:
-                                    id: h2
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Выс. 1 ступени'
-                                TextInput:
-                                    id: h1
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Выс.бок.ускорителей'
-                                TextInput:
-                                    id: side_h
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Шир.бок.ускорителей'
-                                TextInput:
-                                    id: side_w
-                            BoxLayout:
-                                LLabel:
-                                    text: 'Кол-во сопел'
-                                Spinner:
-                                    id: n_dus
-                                    text: 'Кол-во'
-                                    values: (str(n) for n in range(1, 7))
-                            BoxLayout:
-                                MyButton:
-                                    text: 'Чертим ракету'
-                                    on_release: root.draw_rocket()
-                            BoxLayout:
-                                MyButton:
-                                    text: 'Очистить'
-                                    on_release: root.clear_rocket()
-                        VBoxLayout:
-                            canvas:
-                                Color:
-                                    rgba: (0.31, 0.35, 0.35, 1)
-                                Rectangle:
-                                    pos: self.pos
-                                    size: self.size      
-
-                        
-            AccordionItem: 
-                title: '[b]Стоимость[/b]'
-                AccBoxLayout:
-                    HBoxLayout:
-                        Label:
-                            text: '[b]Рассчёт стоимости полёта[/b]'
-
-                    HBoxLayout:
-                        Spinner:
-                            id: destination
-                            text: 'Куда\nлетим?' 
-                            values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
-                            on_text: root.on_destination_select()
-                        Label:
-                            id: destination_select
-                            text: 'Цель назначения...'
-
-                    HBoxLayout:
-                        Spinner:
-                            id: tariff
-                            text: 'Выберите\nтариф' 
-                            values: 'простой', 'быстрый', 'супербыстрый'
-                            on_text: root.on_tariff_select()
-                        Label:
-                            id: tariff_select
-                            text: 'Тариф...'
-
-                    HBoxLayout:
-                        Spinner:
-                            id: passengers
-                            text: 'Количество\nпассажиров' 
-                            values: (str(n) for n in range(1, 21))
-                            on_text: root.on_passengers_select()
-                        Label:
-                            id: passengers_select
-                            text: '... пассажиров'
-
-                    HBoxLayout:
-                        Spinner:
-                            id: cargo
-                            text: 'Количество\nтонн груза' 
-                            values: (str(n) for n in range(1, 101))
-                            on_text: root.on_cargo_select()
-                        Label:
-                            id: cargo_select
-                            text: '... тонн груза'
-
-                    HBoxLayout:
-                        MyButton:
-                            id: btn_price
-                            text: '[b]СТОИМОСТЬ[/b]'
-                            on_release: root.priced()
-                    HBoxLayout:
-                        Label:
-                            id: price_select
-                            text: 'Стоимость полёта:'
-
-
-            AccordionItem: 
-                title: '[b]Формулы[/b]'
-                AccBoxLayout:
-                    BoxLayout:
-                        Label:
-                            text: '[b]Формулы для рассчёта траектории[/b]'
-                    
-                    HBoxLayout:
-                        RLabel:
-                            text: 'Радиус   .'
-                        TextInput:
-                            id: rad0
-                        LLabel:
-                            text: ' млн км'
-                    HBoxLayout:
-                        RLabel:
-                            text: 'Период   .'
-                        TextInput:
-                            id: period0
-                        Spinner:
-                            id: period0_time
-                            text: 'Размерность'
-                            values: ('час', 'сут', 'год')
-                    HBoxLayout:
-                        MyButton:
-                            text: '[b]Скорость[/b]'
-                            on_release: root.vel0()
-                        LLabel:
-                            id: lbl_v0
-                            text: ' Скорость...'
-                    HBoxLayout:
-                        Label:
-                            text: '____________________________________'
-
-                    HBoxLayout:
-                        RLabel:
-                            text: 'Скорость, км/сек '
-                        TextInput:
-                            id: v3_sec
-                        Spinner:
-                            id: spn_v3
-                            text: 'Размерность скорости'
-                            values: 'км/час', 'км/сут', 'км/год'
-                    HBoxLayout:
-                        MyButton:
-                            text: '[b]Перевод[/b]'
-                            on_release: root.vel3()
-                        LLabel:
-                            id: lbl_v3
-                            text: ' В других единицах...'
-                    HBoxLayout:
-                        Label:
-                            text: '____________________________________'
-
-                    HBoxLayout:
-                        TextInput:
-                            id: ae0
-                        LLabel:
-                            text: ' а.е.'
-                    HBoxLayout:
-                        MyButton:
-                            text: '[b]В км[/b]'
-                            on_release: root.ae()
-                        LLabel:
-                            id: lbl_ae
-                            text: ' В млн км это...'
-                    HBoxLayout:
-                        Label:
-                            text: '____________________________________'
-
-                    HBoxLayout:
-                        RLabel: 
-                            text: 'Катет 1  .'
-                        TextInput:
-                            id: cat1
-                    HBoxLayout:
-                        RLabel: 
-                            text: 'Катет 2  .'
-                        TextInput:
-                            id: cat2
-                    HBoxLayout:
-                        MyButton:
-                            text: '[b]Гипотенуза[/b]'
-                            on_release: root.pifagor()
-                        LLabel:
-                            id: lbl_gipot
-                            text: ' Гипотенуза...'
-
-
-            AccordionItem: 
-                title: '[b]Параметры[/b]'
-                AccBoxLayout:                    
+    
+        title: '[b]Траектория[/b]'
+        VBoxLayout:
+            
+            VBoxLayout:
+                HBoxLayout:
                     Label:
-                        text: '[b]Рассчёт параметров полёта[/b]'
-
+                        text: '[b]Рассчёт траектории полёта[/b]'
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Угол старта, градусы'
+                    TextInput:
+                        id: alf
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Угол объекта, градусы'
+                    TextInput:
+                        id: bet1
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Радиус старта, млн.км'
+                    TextInput:
+                        id: rad01
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Радиус объекта, млн.км'
+                    TextInput:
+                        id: rad02
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Период обращения'
+                    TextInput:
+                        id: t00
+                    Spinner:
+                        text: 'размерность'
+                        id: spn_p00
+                        values: 'сут', 'год'
+                HBoxLayout:
+                    RLabel: 
+                        text: 'Рассчётное время'
+                    TextInput:
+                        id: t02
+                    Spinner:
+                        text: 'размерность'
+                        id: spn_p02
+                        values: 'сут', 'год'
+            VBoxLayout:
+                MyButton:
+                    text: '[b]ТРАЕКТОРИЯ[/b]'
+                    on_release: root.pathed()
+                Label:
+                    text: 'Длина пути ракеты...'
+                    id: lbl_l1
+                Label:
+                    text: 'Рекомендуемая скорость ракеты...'
+                    id: lbl_v1
+                Label:
+                    text: 'Направление ракеты...'
+                    id: lbl_bet2
+                    
+                    
+    TabbedPanelItem:
+        text: 'Ракета'
+        
+        title: '[b]Ракета[/b]'
+        VBoxLayout:
+            HBoxLayout:
+                VBoxLayout:
                     HBoxLayout:
-                        RLabel:
-                            text: 'Полуось орб.старта, млн км    .'
+                        LLabel:
+                            text: 'Выс.конуса'
                         TextInput:
-                            id: r1
-
+                            id: con_h
                     HBoxLayout:
-                        RLabel:
-                            text: 'Полуось орб.финиша, млн км    .'
+                        LLabel:
+                            text: 'Шир.конуса'
                         TextInput:
-                            id: r2
-
+                            id: con_w
                     HBoxLayout:
-                        RLabel:
-                            text: 'Скорость ракеты км/сек   .'
+                        LLabel:
+                            text: 'Выс. 3 ступени'
                         TextInput:
-                            id: v1_sec
-                            
+                            id: h3
                     HBoxLayout:
-                        RLabel:
-                            text: 'Скорость объекта, км/сек .'
+                        LLabel:
+                            text: 'Выс. 2 ступени'
                         TextInput:
-                            id: v2_sec
-
+                            id: h2
                     HBoxLayout:
-                        RLabel:
-                            text: 'Размерность времени .'
+                        LLabel:
+                            text: 'Выс. 1 ступени'
+                        TextInput:
+                            id: h1
+                    HBoxLayout:
+                        LLabel:
+                            text: 'Выс.бок.ускорителей'
+                        TextInput:
+                            id: side_h
+                    HBoxLayout:
+                        LLabel:
+                            text: 'Шир.бок.ускорителей'
+                        TextInput:
+                            id: side_w
+                    HBoxLayout:
+                        LLabel:
+                            text: 'Кол-во сопел'
                         Spinner:
-                            id: spn_t
-                            text: 'Размерность времени'
-                            values: 'час', 'сутки', 'год'
-
+                            id: n_dus
+                            text: 'Кол-во'
+                            values: (str(n) for n in range(1, 7))
                     HBoxLayout:
                         MyButton:
-                            text: '[b]ВЫЧИСЛИТЬ[/b]'
-                            on_release: root.calculate()  
+                            text: '[b]ЧЕРТЁЖ[/b]'
+                            on_release: root.draw_rocket()
+                    HBoxLayout:
+                        MyButton:
+                            text: '[b]ОЧИСТКА[/b]'
+                            on_release: root.clear_rocket()
+                VBoxLayout:
+                    canvas:
+                        Color:
+                            rgba: (0.31, 0.35, 0.35, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size      
 
-                    LLabel:
-                        id: lbl_orb2
-                        text: 'Длина орбиты объекта ... млн км.'
-                    LLabel:
-                        id: lbl_t1
-                        text: 'Время движения ракеты до объекта...'
-                    LLabel:
-                        id: lbl_l2
-                        text: 'За это время объект прошёл...'
-                    LLabel:
-                        id: lbl_l2_cent
-                        text: 'Это составляет ...% от его орбиты.'
+    TabbedPanelItem:
+        text: 'Стоимость'                
+        
+        title: '[b]Стоимость[/b]'
+        VBoxLayout:
+            HBoxLayout:
+                Label:
+                    text: '[b]Рассчёт стоимости полёта[/b]'
+
+            HBoxLayout:
+                Spinner:
+                    id: destination
+                    text: 'Куда\nлетим?' 
+                    values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
+                    on_text: root.on_destination_select()
+                Label:
+                    id: destination_select
+                    text: 'Цель назначения...'
+
+            HBoxLayout:
+                Spinner:
+                    id: tariff
+                    text: 'Выберите\nтариф' 
+                    values: 'простой', 'быстрый', 'супербыстрый'
+                    on_text: root.on_tariff_select()
+                Label:
+                    id: tariff_select
+                    text: 'Тариф...'
+
+            HBoxLayout:
+                Spinner:
+                    id: passengers
+                    text: 'Количество\nпассажиров' 
+                    values: (str(n) for n in range(1, 21))
+                    on_text: root.on_passengers_select()
+                Label:
+                    id: passengers_select
+                    text: '... пассажиров'
+
+            HBoxLayout:
+                Spinner:
+                    id: cargo
+                    text: 'Количество\nтонн груза' 
+                    values: (str(n) for n in range(1, 101))
+                    on_text: root.on_cargo_select()
+                Label:
+                    id: cargo_select
+                    text: '... тонн груза'
+
+            HBoxLayout:
+                MyButton:
+                    id: btn_price
+                    text: '[b]СТОИМОСТЬ[/b]'
+                    on_release: root.priced()
+            HBoxLayout:
+                Label:
+                    id: price_select
+                    text: 'Стоимость полёта:'
+
+
+    TabbedPanelItem:
+        text: 'Формулы' 
+        title: '[b]Формулы[/b]'
+        VBoxLayout:
+            HBoxLayout:
+                Label:
+                    text: '[b]Формулы для рассчёта траектории[/b]'
+
+            HBoxLayout:
+                RLabel:
+                    text: 'Радиус, млн км    .'
+                TextInput:
+                    id: rad
+            HBoxLayout:
+                MyButton:
+                    text: '[b]ДЛИНА ОКРУЖНОСТИ[/b]'
+                    on_release: root.circum()
+                LLabel:
+                    id: lbl_orb
+                    text: ' Длина окружности...'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+            
+            HBoxLayout:
+                RLabel:
+                    text: 'Радиус   .'
+                TextInput:
+                    id: rad0
+                LLabel:
+                    text: ' млн км'
+            HBoxLayout:
+                RLabel:
+                    text: 'Период   .'
+                TextInput:
+                    id: period0
+                Spinner:
+                    id: period0_time
+                    text: 'Размерность'
+                    values: ('час', 'сут', 'год')
+            HBoxLayout:
+                MyButton:
+                    text: '[b]СКОРОСТЬ[/b]'
+                    on_release: root.vel0()
+                LLabel:
+                    id: lbl_v0
+                    text: ' Скорость...'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+
+            HBoxLayout:
+                RLabel:
+                    text: 'Скорость, км/сек '
+                TextInput:
+                    id: v3_sec
+                Spinner:
+                    id: spn_v3
+                    text: 'Размерность скорости'
+                    values: 'км/час', 'км/сут', 'км/год'
+            HBoxLayout:
+                MyButton:
+                    text: '[b]ПЕРЕВОД[/b]'
+                    on_release: root.vel3()
+                LLabel:
+                    id: lbl_v3
+                    text: ' В других единицах...'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+
+            HBoxLayout:
+                TextInput:
+                    id: ae0
+                LLabel:
+                    text: ' а.е.'
+            HBoxLayout:
+                MyButton:
+                    text: '[b]КИЛОМЕТРЫ[/b]'
+                    on_release: root.ae()
+                LLabel:
+                    id: lbl_ae
+                    text: ' В млн км это...'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+
+            HBoxLayout:
+                RLabel: 
+                    text: 'Катет 1  .'
+                TextInput:
+                    id: cat1
+            HBoxLayout:
+                RLabel: 
+                    text: 'Катет 2  .'
+                TextInput:
+                    id: cat2
+            HBoxLayout:
+                MyButton:
+                    text: '[b]ГИПОТЕНУЗА[/b]'
+                    on_release: root.pifagor()
+                LLabel:
+                    id: lbl_gipot
+                    text: ' Гипотенуза...'
