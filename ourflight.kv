@@ -120,15 +120,17 @@
     cat2: cat2  # катет 2
     lbl_gipot: lbl_gipot  # надпись Гипотенуза
 
-    start: start  # стартовый объект
+    spn_start: spn_start  # стартовый объект
     lbl_start: lbl_start  # надпись Стартовый объект
-    destination: destination  # объект назначения
+    spn_destination: spn_destination  # объект назначения
     lbl_destination: lbl_destination  # надпись Объект назначения
-    tariff: tariff  # выбор тарифа
+    spn_side: spn_side  # стороны относительно Солнца
+    lbl_side: lbl_side  # надпись Стороны относительно Солнца
+    spn_tariff: spn_tariff  # выбор тарифа
     lbl_tariff: lbl_tariff  # надпись Выбор тарифа
-    passengers: passengers  # кол-во пассажиров
+    spn_passengers: spn_passengers  # кол-во пассажиров
     lbl_passengers: lbl_passengers  # надпись Кол-во пассажиров
-    cargo: cargo  # кол-во груза
+    spn_cargo: spn_cargo  # кол-во груза
     lbl_cargo: lbl_cargo  # надпись Кол-во груза
     lbl_price: lbl_price  # надпись Стоимость
 
@@ -402,51 +404,61 @@
 
             HBoxLayout:
                 Spinner:
-                    id: start
+                    id: spn_start
                     text: 'Откуда\nлетим?' 
                     values: 'Земля', 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
                     on_text: root.on_start_select()
-                Label:
+                LLabel:
                     id: lbl_start
                     text: 'Отправление с...'
             
             HBoxLayout:
                 Spinner:
-                    id: destination
+                    id: spn_destination
                     text: 'Куда\nлетим?' 
-                    values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
+                    values: 'Земля', 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
                     on_text: root.on_destination_select()
-                Label:
+                LLabel:
                     id: lbl_destination
                     text: 'Цель назначения...'
 
             HBoxLayout:
                 Spinner:
-                    id: tariff
+                    id: spn_side
+                    text: 'Стороны\nот центра' 
+                    values: 'одна', 'разные'
+                    on_text: root.on_side_select()
+                LLabel:
+                    id: lbl_side
+                    text: 'Стороны от центра...'
+
+            HBoxLayout:
+                Spinner:
+                    id: spn_tariff
                     text: 'Выберите\nтариф' 
                     values: 'простой', 'быстрый', 'супербыстрый'
                     on_text: root.on_tariff_select()
-                Label:
+                LLabel:
                     id: lbl_tariff
                     text: 'Тариф...'
 
             HBoxLayout:
                 Spinner:
-                    id: passengers
+                    id: spn_passengers
                     text: 'Количество\nпассажиров' 
                     values: (str(n) for n in range(1, 21))
                     on_text: root.on_passengers_select()
-                Label:
+                LLabel:
                     id: lbl_passengers
                     text: '... пассажиров'
 
             HBoxLayout:
                 Spinner:
-                    id: cargo
+                    id: spn_cargo
                     text: 'Количество\nтонн груза' 
                     values: (str(n) for n in range(1, 101))
                     on_text: root.on_cargo_select()
-                Label:
+                LLabel:
                     id: lbl_cargo
                     text: '... тонн груза'
 
@@ -455,7 +467,7 @@
                     text: '[b]СТОИМОСТЬ[/b]'
                     on_release: root.priced()
             HBoxLayout:
-                Label:
+                LLabel:
                     id: lbl_price
                     text: 'Стоимость полёта:'
 

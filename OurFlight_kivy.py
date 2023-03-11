@@ -211,40 +211,48 @@ class Container(TabbedPanel):
 
     # стоимость полёта
     def on_start_select(self):
-        self.lbl_start.text = 'Ваш старт: '+self.start.text
+        self.lbl_start.text = 'Ваш старт: '+self.spn_start.text
 
     def on_destination_select(self):
-        self.lbl_destination.text = 'Ваша цель: '+self.destination.text    
+        self.lbl_destination.text = 'Ваша цель: '+self.spn_destination.text    
+
+    def on_side_select(self):
+        self.lbl_side.text = 'Стороны от центра: '+self.spn_side.text
 
     def on_tariff_select(self):
-        self.lbl_tariff.text = 'Тариф: '+self.tariff.text
+        self.lbl_tariff.text = 'Тариф: '+self.spn_tariff.text
 
     def on_passengers_select(self):
-        self.lbl_passengers.text = 'Число пассажиров: '+self.passengers.text
+        self.lbl_passengers.text = 'Число пассажиров: '+self.spn_passengers.text
 
     def on_cargo_select(self):
-        self.lbl_cargo.text = 'Число тонн груза: '+self.cargo.text
+        self.lbl_cargo.text = 'Число тонн груза: '+self.spn_cargo.text
 
     def priced(self):
         try:
-            s = self.start.text  # стартовый объект
-            d = self.destination.text  # объект назначения
+            s = self.spn_start.text  # стартовый объект
+            d = self.spn_destination.text  # объект назначения
             s_d_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ганимед': 778, 
                         'Ио': 779, 'Калисто': 780, 'Европа': 781, 'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
                         'Эрида': 10200}   # коэффициенты объектов
+            side = self.spn_side.text
             if s in s_d_dict:
                 i_s = s_d_dict[s]
             if d in s_d_dict:
                 i_d = s_d_dict[d]
-            t = self.tariff.text
+            t = self.spn_tariff.text
             t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
             if t in t_dict:
                 i_t = t_dict[t]
-            p = int(self.passengers.text)  # количество пассажиров
-            c = int(self.cargo.text)  # масса груза в тоннах
-            rub = 10_000  # рублей за единичный коэффициент
+            p = int(self.spn_passengers.text)  # количество пассажиров
+            c = int(self.spn_cargo.text)  # масса груза в тоннах
+            rub = 100_000  # рублей за единичный коэффициент
 
-            price = abs(i_d-i_s) * p * c * i_t * rub  # без разделения на триады
+            if side == 'одна' or (s == 'Земля' and d == 'Луна') or (s == 'Луна' and d == 'Земля'):
+                delta_d_s = abs(i_d - i_s)
+            else:
+                delta_d_s = abs(i_d + i_s)
+            price = delta_d_s * p * c * i_t * rub  # без разделения на триады
             price2 = '{0:,}'.format(price).replace(',', ' ')  # с разделением на триады      
             self.lbl_price.text = price2
         except:
