@@ -1,97 +1,91 @@
 import math
 from kivy.app import App
+from kivy.uix.checkbox import CheckBox
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.widget import Widget
 from kivy.graphics import (Line, Ellipse)
 
 
-class Container(TabbedPanel):
-    # параметры орбит
-    def circum(self):
+class Container(TabbedPanel): 
+    # строим траекторию
+    def pathed(self):
         try:
-            rad = float(self.rad.text)
-            orb = round(rad*3.12*2)  # длина орбиты объекта
-            self.lbl_orb.text = '   '+str('{0:,}'.format(orb).replace(',', ' '))+' млн км.'
-        except:
-            self.lbl_orb.text = 'Проверьте ввод.'
+            rad01 = int(self.rad01.text)
+            rad02 = int(self.rad02.text)
+            alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
+            bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
+            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
+            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
 
-    # скорость из длины орбиты и периода обращения
-    def vel0(self):
-        try:
-            if self.period0_time.text == 'час':
-                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
-            elif self.period0_time.text == 'сут':
-                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
-            elif self.period0_time.text == 'год':
-                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
-            self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
+            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
+            l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
+                      ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
+            self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
+            self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
+            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
+            if bet2 >= 6.28319:  # если объект прошёл больше одного круга
+                bet2 = bet2%6.28319
+            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
+                acos0 = -acos0 
+            self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
         except:
-            self.lbl_v0.text = '    Проверьте ввод.'
+            self.lbl_l1.text = 'Проверьте ввод.'
+            self.lbl_v1.text = 'Проверьте ввод.'
+            self.lbl_bet2.text = 'Проверьте ввод.'
+    
+    # временные значения по умолчанию для разработки
+    def checkbox(self, value):
+        if value == True:
+            rad01 = 150
+            rad02 = 228
+            alf = 30*3.14159/180  
+            bet1 = 45*3.14159/180 
+            t00 = 689
+            t02 = 689
 
-    # перевод км/сек в другие единицы
-    def vel3(self):
-        try:
-            v3_sec = int(self.v3_sec.text)
-            v3 = self.spn_v3.text
-            v3_dict = {'км/час': 1, 'км/сут': 24, 'км/год': 24*365}
-            if v3 in v3_dict:
-                i_v3 = v3_dict[v3]
-            self.lbl_v3.text = '    '+str('{0:,}'.format(round(float(v3_sec)*3600*i_v3)).replace(',', ' '))+' '+str(v3)
-        except:
-            self.lbl_v3.text = '    Проверьте ввод.'
-
-    # перевод астрономические единиц в км
-    def ae(self):
-        try:
-            ae = round(float(self.ae0.text) * 150)
-            self.lbl_ae.text = '    '+str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
-        except:
-            self.lbl_ae.text = '    Проверьте ввод.'
-
-    # теорема Пифагора
-    def pifagor(self):
-        try:
-            gipot = round(((int(self.cat1.text))**2 + (int(self.cat2.text))**2)**0.5)
-            self.lbl_gipot.text = '    '+str('{0:,}'.format(gipot).replace(',', ' '))
-        except:
-            self.lbl_gipot.text = '     Проверьте ввод.'
-
+            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
+            l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
+                      ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
+            self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
+            self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
+            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
+            if bet2 >= 6.28319:  # если объект прошёл больше одного круга
+                bet2 = bet2%6.28319
+            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
+                acos0 = -acos0 
+            self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
         
-    # стоимость полёта
-    def on_destination_select(self):
-        self.destination_select.text = 'Ваша цель: %s'%self.destination.text    
+    # чертим траекторию
+    def draw_path(self):
+        with self.canvas.after:
+            try:
+                self.canvas.after.clear()
+                rad01 = int(self.rad01.text)
+                rad02 = int(self.rad02.text)
+                alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
+                bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
+                t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
+                t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
+                bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
 
-    def on_tariff_select(self):
-        self.tariff_select.text = 'Тариф: %s'%self.tariff.text
+                sunX = 400
+                sunY = 500
+                self.orbit1 = Ellipse(pos=(sunX-rad01, sunY-rad01), size=(rad01*2, rad01*2))
+                # self.orbit2 = Ellipse(pos=(), size=())
+                self.path = Line(points=((sunX+rad01)*math.cos(alf), (sunY+rad01)*math.sin(alf),
+                                        (sunX+rad02)*math.cos(bet2), (sunY+rad02)*math.sin(bet2)))
+                
+                # self.path = Line(points=(rad01*math.cos(alf), rad01*math.sin(alf),
+                #                         rad02*math.cos(bet2), rad02*math.sin(bet2)))
+            except:
+                pass
 
-    def on_passengers_select(self):
-        self.passengers_select.text = 'Число пассажиров: %s'%self.passengers.text
+    # стираем траекторию
+    def clear_path(self):
+        with self.canvas.after:
+            self.canvas.after.clear()
 
-    def on_cargo_select(self):
-        self.cargo_select.text = 'Число тонн груза: %s'%self.cargo.text
-
-    def priced(self):
-        try:
-            d = self.destination.text
-            d_dict = {'Луна': 1, 'Марс': 2, 'Церера': 2.5, 'Ганимед': 3, 'Ио': 3, 'Калисто': 3, 'Европа': 3, 'Меркурий': 4,
-                      'Венера': 4, 'Титан': 4, 'Титания': 5, 'Тритон': 6, 'Плутон': 7, 'Эрида': 8}   # коэффициенты цели
-            if d in d_dict:
-                i_d = d_dict[d]
-            t = self.tariff.text
-            t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
-            if t in t_dict:
-                i_t = t_dict[t]
-            p = int(self.passengers.text)  # количество пассажиров
-            c = int(self.cargo.text)  # масса груза в тоннах
-            rub = 1_000_000  # рублей за единичный коэффициент
-
-            price = i_d * p * c * i_t * rub  # без разделения на триады
-            price2 = '{0:,}'.format(price).replace(',', ' ')  # с разделением на триады      
-            self.price_select.text = price2
-        except:
-            self.price_select.text = 'Проверьте ввод.'
-
-    # рисуем ракету
+    # чертим ракету
     def draw_rocket(self):
         with self.canvas.after:
             try:
@@ -165,33 +159,98 @@ class Container(TabbedPanel):
         with self.canvas.after:
             self.canvas.after.clear()
 
-    # строим траекторию
-    def pathed(self):
+    # параметры орбит
+    def circum(self):
         try:
-            rad01 = int(self.rad01.text)
-            rad02 = int(self.rad02.text)
-            alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
-            bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
-            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
-            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
-
-            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
-            l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
-                      ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
-            self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
-            self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
-            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
-            if bet2 >= 6.28319:  # если объект прошёл больше одного круга
-                bet2 = bet2%6.28319
-            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
-                acos0 = -acos0 
-            self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
+            rad = float(self.rad.text)
+            orb = round(rad*3.12*2)  # длина орбиты объекта
+            self.lbl_orb.text = '   '+str('{0:,}'.format(orb).replace(',', ' '))+' млн км.'
         except:
-            self.lbl_l1.text = 'Проверьте ввод.'
-            self.lbl_v1.text = 'Проверьте ввод.'
-            self.lbl_bet2.text = 'Проверьте ввод.'
+            self.lbl_orb.text = 'Проверьте ввод.'
 
+    # скорость из длины орбиты и периода обращения
+    def vel0(self):
+        try:
+            if self.period0_time.text == 'час':
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600)),1)
+            elif self.period0_time.text == 'сут':
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24)),1)
+            elif self.period0_time.text == 'год':
+                v0 = round(((int(self.rad.text) * 2 * 3.14 * 1_000_000) / (int(self.period0.text) * 3600 * 24 * 365)),1)
+            self.lbl_v0.text = '    '+str('{0:,}'.format(v0).replace(',', ' ')) + ' км/сек'
+        except:
+            self.lbl_v0.text = '    Проверьте ввод.'
 
+    # перевод км/сек в другие единицы
+    def vel3(self):
+        try:
+            v3_sec = int(self.v3_sec.text)
+            v3 = self.spn_v3.text
+            v3_dict = {'км/час': 1, 'км/сут': 24, 'км/год': 24*365}
+            if v3 in v3_dict:
+                i_v3 = v3_dict[v3]
+            self.lbl_v3.text = '    '+str('{0:,}'.format(round(float(v3_sec)*3600*i_v3)).replace(',', ' '))+' '+str(v3)
+        except:
+            self.lbl_v3.text = '    Проверьте ввод.'
+
+    # перевод астрономические единиц в км
+    def ae(self):
+        try:
+            ae = round(float(self.ae0.text) * 150)
+            self.lbl_ae.text = '    '+str('{0:,}'.format(ae).replace(',', ' '))+' млн км'
+        except:
+            self.lbl_ae.text = '    Проверьте ввод.'
+
+    # теорема Пифагора
+    def pifagor(self):
+        try:
+            gipot = round(((int(self.cat1.text))**2 + (int(self.cat2.text))**2)**0.5)
+            self.lbl_gipot.text = '    '+str('{0:,}'.format(gipot).replace(',', ' '))
+        except:
+            self.lbl_gipot.text = '     Проверьте ввод.'
+
+    # стоимость полёта
+    def on_start_select(self):
+        self.lbl_start.text = 'Ваш старт: '+self.start.text
+
+    def on_destination_select(self):
+        self.lbl_destination.text = 'Ваша цель: '+self.destination.text    
+
+    def on_tariff_select(self):
+        self.lbl_tariff.text = 'Тариф: '+self.tariff.text
+
+    def on_passengers_select(self):
+        self.lbl_passengers.text = 'Число пассажиров: '+self.passengers.text
+
+    def on_cargo_select(self):
+        self.lbl_cargo.text = 'Число тонн груза: '+self.cargo.text
+
+    def priced(self):
+        try:
+            s = self.start.text  # стартовый объект
+            d = self.destination.text  # объект назначения
+            s_d_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ганимед': 778, 
+                        'Ио': 779, 'Калисто': 780, 'Европа': 781, 'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
+                        'Эрида': 10200}   # коэффициенты объектов
+            if s in s_d_dict:
+                i_s = s_d_dict[s]
+            if d in s_d_dict:
+                i_d = s_d_dict[d]
+            t = self.tariff.text
+            t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
+            if t in t_dict:
+                i_t = t_dict[t]
+            p = int(self.passengers.text)  # количество пассажиров
+            c = int(self.cargo.text)  # масса груза в тоннах
+            rub = 10_000  # рублей за единичный коэффициент
+
+            price = abs(i_d-i_s) * p * c * i_t * rub  # без разделения на триады
+            price2 = '{0:,}'.format(price).replace(',', ' ')  # с разделением на триады      
+            self.lbl_price.text = price2
+        except:
+            self.lbl_price.text = 'Проверьте ввод.'
+
+    
 class OurFlightApp(App):
     def build(self):
         return Container()

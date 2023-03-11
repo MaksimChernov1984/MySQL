@@ -86,51 +86,51 @@
 
 
 <Container>
-    alf: alf
-    bet1: bet1
-    rad01: rad01
-    rad02: rad02
-    t00: t00
-    spn_p00: spn_p00
-    t02: t02
-    spn_p02: spn_p02
-    lbl_l1: lbl_l1
-    lbl_v1: lbl_v1
-    lbl_bet2: lbl_bet2
+    alf: alf  # угол стартового объекта относительно Солнца
+    bet1: bet1  # угол объекта назначения относительно Солнца в момент старта ракеты
+    rad01: rad01  # большая полуось стартового объекта
+    rad02: rad02  # большая полуось объекта назначения
+    t00: t00  # период обращения объекта назначения вокруг Солнца
+    spn_p00: spn_p00  # выбор размерности периода обращения
+    t02: t02  # время движения объекта до встречи с ракетой, оно же время движения ракеты
+    spn_p02: spn_p02  # выбор размерности времени движения ракеты
+    lbl_l1: lbl_l1  # надпись Длина пути ракеты
+    lbl_v1: lbl_v1  # надпись Скорость ракеты
 
-    con_h: con_h
-    con_w: con_w
-    h3: h3
-    h2: h2
-    h1: h1
-    side_h: side_h
-    side_w: side_w
-    n_dus: n_dus
+    con_h: con_h  # высота обтекателя ракеты
+    con_w: con_w  # ширина обтекателя ракеты
+    h3: h3  # высота 3 ступени
+    h2: h2  # высота 2 ступени
+    h1: h1  # высота 1 ступени
+    side_h: side_h  # высота боковых ускорителей
+    side_w: side_w  # ширина боковых ускорителей
+    n_dus: n_dus  # число сопел
 
-    destination: destination
-    destination_select: destination_select
-    tariff: tariff
-    tariff_select: tariff_select
-    passengers: passengers
-    passengers_select: passengers_select
-    cargo: cargo
-    cargo_select: cargo_select
-    btn_price: btn_price
-    price_select: price_select
+    rad: rad  # большая полуось объекта
+    period0: period0  # период обращения объекта
+    period0_time: period0_time  # выбор размерности периода обращения объекта
+    lbl_orb: lbl_orb  # надпись Длина орбиты
+    lbl_v0: lbl_v0  # надпись Скорость обращения объекта в км/с
+    v3_sec: v3_sec  # скорость обращения объекта в км/с (пользовательская)
+    spn_v3: spn_v3  # выбор размерности скорости обращения объекта
+    lbl_v3: lbl_v3  # надпись Скорость обращения объекта (км/ч, км/сут, км/год)
+    ae0: ae0  # количество астрономических единиц
+    lbl_ae: lbl_ae  # надпись Перевод а.е. в км
+    cat1: cat1  # катет 1
+    cat2: cat2  # катет 2
+    lbl_gipot: lbl_gipot  # надпись Гипотенуза
 
-    rad: rad
-    period0: period0
-    period0_time: period0_time
-    lbl_orb: lbl_orb
-    lbl_v0: lbl_v0
-    v3_sec: v3_sec
-    spn_v3: spn_v3
-    lbl_v3: lbl_v3
-    ae0: ae0
-    lbl_ae: lbl_ae
-    cat1: cat1
-    cat2: cat2
-    lbl_gipot: lbl_gipot
+    start: start  # стартовый объект
+    lbl_start: lbl_start  # надпись Стартовый объект
+    destination: destination  # объект назначения
+    lbl_destination: lbl_destination  # надпись Объект назначения
+    tariff: tariff  # выбор тарифа
+    lbl_tariff: lbl_tariff  # надпись Выбор тарифа
+    passengers: passengers  # кол-во пассажиров
+    lbl_passengers: lbl_passengers  # надпись Кол-во пассажиров
+    cargo: cargo  # кол-во груза
+    lbl_cargo: lbl_cargo  # надпись Кол-во груза
+    lbl_price: lbl_price  # надпись Стоимость
 
     
     halign: 'center'
@@ -147,9 +147,6 @@
 
     TabbedPanelItem:
         text: 'Траектория'
-
-    
-        title: '[b]Траектория[/b]'
         VBoxLayout:
             
             VBoxLayout:
@@ -194,6 +191,9 @@
                         text: 'размерность'
                         id: spn_p02
                         values: 'сут', 'год'
+                HBoxLayout:
+                    CheckBox:
+                        on_active: root.checkbox(self, self.active)
             VBoxLayout:
                 MyButton:
                     text: '[b]ТРАЕКТОРИЯ[/b]'
@@ -210,9 +210,33 @@
                     
                     
     TabbedPanelItem:
+        text: 'Навигация'
+        VBoxLayout:
+            
+            VBoxLayout:
+                HBoxLayout:
+                    Label:
+                        text: '[b]Чертёж траектории полёта[/b]'
+                HBoxLayout:
+                    size_hint_y: 3
+                    canvas:
+                        Color:
+                            rgba: (0.31, 0.35, 0.35, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                HBoxLayout:
+                    MyButton:
+                        text: '[b]ЧЕРТЁЖ[/b]'
+                        on_release: root.draw_path()
+                HBoxLayout:
+                    MyButton:
+                        text: '[b]ОЧИСТКА[/b]'
+                        on_release: root.clear_path()
+                    
+
+    TabbedPanelItem:
         text: 'Ракета'
-        
-        title: '[b]Ракета[/b]'
         VBoxLayout:
             HBoxLayout:
                 VBoxLayout:
@@ -272,71 +296,11 @@
                             rgba: (0.31, 0.35, 0.35, 1)
                         Rectangle:
                             pos: self.pos
-                            size: self.size      
-
-    TabbedPanelItem:
-        text: 'Стоимость'                
-        
-        title: '[b]Стоимость[/b]'
-        VBoxLayout:
-            HBoxLayout:
-                Label:
-                    text: '[b]Рассчёт стоимости полёта[/b]'
-
-            HBoxLayout:
-                Spinner:
-                    id: destination
-                    text: 'Куда\nлетим?' 
-                    values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
-                    on_text: root.on_destination_select()
-                Label:
-                    id: destination_select
-                    text: 'Цель назначения...'
-
-            HBoxLayout:
-                Spinner:
-                    id: tariff
-                    text: 'Выберите\nтариф' 
-                    values: 'простой', 'быстрый', 'супербыстрый'
-                    on_text: root.on_tariff_select()
-                Label:
-                    id: tariff_select
-                    text: 'Тариф...'
-
-            HBoxLayout:
-                Spinner:
-                    id: passengers
-                    text: 'Количество\nпассажиров' 
-                    values: (str(n) for n in range(1, 21))
-                    on_text: root.on_passengers_select()
-                Label:
-                    id: passengers_select
-                    text: '... пассажиров'
-
-            HBoxLayout:
-                Spinner:
-                    id: cargo
-                    text: 'Количество\nтонн груза' 
-                    values: (str(n) for n in range(1, 101))
-                    on_text: root.on_cargo_select()
-                Label:
-                    id: cargo_select
-                    text: '... тонн груза'
-
-            HBoxLayout:
-                MyButton:
-                    id: btn_price
-                    text: '[b]СТОИМОСТЬ[/b]'
-                    on_release: root.priced()
-            HBoxLayout:
-                Label:
-                    id: price_select
-                    text: 'Стоимость полёта:'
+                            size: self.size    
 
 
     TabbedPanelItem:
         text: 'Формулы' 
-        title: '[b]Формулы[/b]'
         VBoxLayout:
             HBoxLayout:
                 Label:
@@ -427,3 +391,98 @@
                 LLabel:
                     id: lbl_gipot
                     text: ' Гипотенуза...'
+
+
+    TabbedPanelItem:
+        text: 'Стоимость'
+        VBoxLayout:
+            HBoxLayout:
+                Label:
+                    text: '[b]Рассчёт стоимости полёта[/b]'
+
+            HBoxLayout:
+                Spinner:
+                    id: start
+                    text: 'Откуда\nлетим?' 
+                    values: 'Земля', 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
+                    on_text: root.on_start_select()
+                Label:
+                    id: lbl_start
+                    text: 'Отправление с...'
+            
+            HBoxLayout:
+                Spinner:
+                    id: destination
+                    text: 'Куда\nлетим?' 
+                    values: 'Луна', 'Меркурий', 'Венера', 'Марс', 'Церера', 'Веста', 'Ганимед', 'Ио', 'Европа', 'Каллисто', 'Титан', 'Титания', 'Тритон', 'Плутон', 'Эрида'
+                    on_text: root.on_destination_select()
+                Label:
+                    id: lbl_destination
+                    text: 'Цель назначения...'
+
+            HBoxLayout:
+                Spinner:
+                    id: tariff
+                    text: 'Выберите\nтариф' 
+                    values: 'простой', 'быстрый', 'супербыстрый'
+                    on_text: root.on_tariff_select()
+                Label:
+                    id: lbl_tariff
+                    text: 'Тариф...'
+
+            HBoxLayout:
+                Spinner:
+                    id: passengers
+                    text: 'Количество\nпассажиров' 
+                    values: (str(n) for n in range(1, 21))
+                    on_text: root.on_passengers_select()
+                Label:
+                    id: lbl_passengers
+                    text: '... пассажиров'
+
+            HBoxLayout:
+                Spinner:
+                    id: cargo
+                    text: 'Количество\nтонн груза' 
+                    values: (str(n) for n in range(1, 101))
+                    on_text: root.on_cargo_select()
+                Label:
+                    id: lbl_cargo
+                    text: '... тонн груза'
+
+            HBoxLayout:
+                MyButton:
+                    text: '[b]СТОИМОСТЬ[/b]'
+                    on_release: root.priced()
+            HBoxLayout:
+                Label:
+                    id: lbl_price
+                    text: 'Стоимость полёта:'
+
+
+    TabbedPanelItem:
+        text: 'Изобретатели' 
+        VBoxLayout:
+            HBoxLayout:
+                Label:
+                    text: '[b]Изобретатели[/b]'
+
+            HBoxLayout:
+                Image:
+                    source: 'images/rocket2.jpg'
+            HBoxLayout:
+                Label:
+                    text: 'Максим Чернов\nпрограммное обеспечение'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+            HBoxLayout:
+                Label:
+                    text: 'Вячеслав Чернов\nмонтаж оборудования'
+            HBoxLayout:
+                Label:
+                    text: '____________________________________'
+            HBoxLayout:
+                Label:
+                    text: 'Дормидонт Пищалкин\nэкономические рассчёты'
+            
