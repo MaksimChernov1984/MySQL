@@ -32,28 +32,6 @@ class Container(TabbedPanel):
             self.lbl_l1.text = 'Проверьте ввод.'
             self.lbl_v1.text = 'Проверьте ввод.'
             self.lbl_bet2.text = 'Проверьте ввод.'
-    
-    # временные значения по умолчанию для разработки
-    def checkbox(self, value):
-        if value == True:
-            rad01 = 150
-            rad02 = 228
-            alf = 30*3.14159/180  
-            bet1 = 45*3.14159/180 
-            t00 = 689
-            t02 = 689
-
-            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
-            l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
-                      ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
-            self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
-            self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
-            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
-            if bet2 >= 6.28319:  # если объект прошёл больше одного круга
-                bet2 = bet2%6.28319
-            if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
-                acos0 = -acos0 
-            self.lbl_bet2.text = 'Курс ракеты '+str(round((acos0)*57.2958))+' град.'  # курс ракеты
         
     # чертим траекторию
     def draw_path(self):
@@ -232,14 +210,18 @@ class Container(TabbedPanel):
         try:
             s = self.spn_start.text  # стартовый объект
             d = self.spn_destination.text  # объект назначения
-            s_d_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ганимед': 778, 
-                        'Ио': 779, 'Калисто': 780, 'Европа': 781, 'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
-                        'Эрида': 10200}   # коэффициенты объектов
-            side = self.spn_side.text
+            s_d_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ио': 778, 'Европа': 778, 
+                        'Ганимед': 778, 'Каллисто': 778,  'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
+                        'Эрида': 10200}   # полуоси объектов
+            jupiter_local = {'Ио': 1, 'Европа': 2, 'Ганимед': 3, 'Каллисто': 4}
             if s in s_d_dict:
                 i_s = s_d_dict[s]
             if d in s_d_dict:
                 i_d = s_d_dict[d]
+            if s and d in jupiter_local:
+                i_s = jupiter_local[s]
+                i_d = jupiter_local[d]
+            side = self.spn_side.text
             t = self.spn_tariff.text
             t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
             if t in t_dict:
