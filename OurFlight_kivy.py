@@ -10,14 +10,22 @@ class Container(TabbedPanel):
     # строим траекторию
     def pathed(self):
         try:
+            global rad01  # большая полуось старта
+            global rad02  # большая полуось финиша
+            global alf  # угол начального положения ракеты в радианах
+            global bet1  # угол начального положения объекта в радианах
+            global t00   # сидерический период
+            global t02  # предполагаемое время прибытия на объект
+            global bet2  # угол конечного положения объекта в радианах
+
             rad01 = int(self.rad01.text)
             rad02 = int(self.rad02.text)
-            alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
-            bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
-            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
-            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
+            alf = float(self.alf.text)*3.14159/180  
+            bet1 = float(self.bet1.text)*3.14159/180
+            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
+            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
 
-            bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
+            bet2 = bet1+t02*6.28/t00  
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
                       ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
             self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
@@ -38,21 +46,12 @@ class Container(TabbedPanel):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
-                rad01 = int(self.rad01.text)
-                rad02 = int(self.rad02.text)
-                alf = float(self.alf.text)*3.14159/180  # угол начального положения ракеты в радианах
-                bet1 = float(self.bet1.text)*3.14159/180  # угол начального положения объекта в радианах
-                t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365  # предполагаемое время прибытия на объект
-                t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365  # сидерический период
-                bet2 = bet1+t02*6.28/t00  # угол конечного положения объекта в радианах
-
                 sunX = 400
                 sunY = 500
                 self.orbit1 = Ellipse(pos=(sunX-rad01, sunY-rad01), size=(rad01*2, rad01*2))
                 # self.orbit2 = Ellipse(pos=(), size=())
                 self.path = Line(points=((sunX+rad01)*math.cos(alf), (sunY+rad01)*math.sin(alf),
                                         (sunX+rad02)*math.cos(bet2), (sunY+rad02)*math.sin(bet2)))
-                
                 # self.path = Line(points=(rad01*math.cos(alf), rad01*math.sin(alf),
                 #                         rad02*math.cos(bet2), rad02*math.sin(bet2)))
             except:
@@ -210,18 +209,22 @@ class Container(TabbedPanel):
         try:
             s = self.spn_start.text  # стартовый объект
             d = self.spn_destination.text  # объект назначения
-            s_d_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ио': 778, 'Европа': 778, 
+            sun_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ио': 778, 'Европа': 778, 
                         'Ганимед': 778, 'Каллисто': 778,  'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
                         'Эрида': 10200}   # полуоси объектов
-            jupiter_local = {'Ио': 1, 'Европа': 2, 'Ганимед': 3, 'Каллисто': 4}
-            if s in s_d_dict:
-                i_s = s_d_dict[s]
-            if d in s_d_dict:
-                i_d = s_d_dict[d]
-            if s and d in jupiter_local:
-                i_s = jupiter_local[s]
-                i_d = jupiter_local[d]
-            side = self.spn_side.text
+            earth_dict = {'Земля': 0, 'Луна': 1}
+            jupiter_dict = {'Ио': 1, 'Европа': 2, 'Ганимед': 3, 'Каллисто': 4}
+            local_dicts = [earth_dict, jupiter_dict]
+            if s and d in sun_dict:
+                i_s = sun_dict[s]
+                i_d = sun_dict[d]
+            elif s and d in earth_dict:  # если старт и финиш в локальной системе Земли
+                i_s = earth_dict[s]
+                i_d = earth_dict[d]
+            elif s and d in jupiter_dict:  # если старт и финиш в локальной системе Юпитера
+                i_s = jupiter_dict[s]
+                i_d = jupiter_dict[d]
+            side = self.spn_side.text  # сторона относительно центра
             t = self.spn_tariff.text
             t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
             if t in t_dict:
@@ -229,8 +232,7 @@ class Container(TabbedPanel):
             p = int(self.spn_passengers.text)  # количество пассажиров
             c = int(self.spn_cargo.text)  # масса груза в тоннах
             rub = 100_000  # рублей за единичный коэффициент
-
-            if side == 'одна' or (s == 'Земля' and d == 'Луна') or (s == 'Луна' and d == 'Земля'):
+            if side == 'одна':
                 delta_d_s = abs(i_d - i_s)
             else:
                 delta_d_s = abs(i_d + i_s)
