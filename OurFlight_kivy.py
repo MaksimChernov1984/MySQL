@@ -3,21 +3,23 @@ from kivy.app import App
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.widget import Widget
-from kivy.graphics import (Line, Ellipse)
+from kivy.graphics import (Color, Ellipse, Line)
 
 
 class Container(TabbedPanel): 
     # строим траекторию
     def pathed(self):
         try:
-            global rad01  # большая полуось старта
-            global rad02  # большая полуось финиша
-            global alf  # угол начального положения ракеты в радианах
-            global bet1  # угол начального положения объекта в радианах
-            global t00   # сидерический период
-            global t02  # предполагаемое время прибытия на объект
-            global bet2  # угол конечного положения объекта в радианах
+            global rad01, rad02, alf , bet1, t00, t02, bet2, l1, acos0
 
+			# значения для разработки
+            #rad01 = 150
+            #rad02 = 228
+            #alf = 30*3.14159/180  
+            #bet1 = 45*3.14159/180
+            #t00 = 689
+            #t02 = 689
+            
             rad01 = int(self.rad01.text)
             rad02 = int(self.rad02.text)
             alf = float(self.alf.text)*3.14159/180  
@@ -30,7 +32,7 @@ class Container(TabbedPanel):
                       ((rad02*math.sin(bet2)-rad01*math.sin(alf))**2))**0.5  # длина пути ракеты по теореме Пифагора
             self.lbl_l1.text = 'Длина пути ракеты '+str(round(l1))+' млн.км'
             self.lbl_v1.text = 'Скорость ракеты '+str(('{0:,}'.format(round(l1*1_000_000/(t02*3600*24), 1))).replace(',', ' '))+' км/сек'
-            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты
+            acos0 = math.acos((rad02*math.cos(bet2)-rad01*math.cos(alf))/l1)  # угол направления ракеты в радианах
             if bet2 >= 6.28319:  # если объект прошёл больше одного круга
                 bet2 = bet2%6.28319
             if 0 < bet2 < alf or (3.14159-alf) < bet2 < 6.28319:  # если ракета севернее конечного положения объекта
@@ -46,14 +48,17 @@ class Container(TabbedPanel):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
-                sunX = 400
-                sunY = 500
-                self.orbit1 = Ellipse(pos=(sunX-rad01, sunY-rad01), size=(rad01*2, rad01*2))
-                # self.orbit2 = Ellipse(pos=(), size=())
-                self.path = Line(points=((sunX+rad01)*math.cos(alf), (sunY+rad01)*math.sin(alf),
-                                        (sunX+rad02)*math.cos(bet2), (sunY+rad02)*math.sin(bet2)))
-                # self.path = Line(points=(rad01*math.cos(alf), rad01*math.sin(alf),
-                #                         rad02*math.cos(bet2), rad02*math.sin(bet2)))
+                sunX = 350
+                sunY = 700
+                R = 250/max(rad01, rad02)
+                maxrad = 250
+                minrad = R*(min(rad01, rad02))
+                #maxrad = max(rad01, rad02)
+                #minrad = min(rad01, rad02)
+                self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 1, 1))
+                self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(0.31, 0.35, 0.35))                    
+                self.path = Line(points=(sunX+rad01*R*math.cos(alf), sunY+rad01*R*math.sin(alf),
+                                        sunX+rad02*R*math.cos(bet2), sunY+rad02*R*math.sin(bet2)), color=Color(0,0,1), width=2)
             except:
                 pass
 
@@ -214,7 +219,6 @@ class Container(TabbedPanel):
                         'Эрида': 10200}   # полуоси объектов
             earth_dict = {'Земля': 0, 'Луна': 1}
             jupiter_dict = {'Ио': 1, 'Европа': 2, 'Ганимед': 3, 'Каллисто': 4}
-            local_dicts = [earth_dict, jupiter_dict]
             if s and d in sun_dict:
                 i_s = sun_dict[s]
                 i_d = sun_dict[d]
