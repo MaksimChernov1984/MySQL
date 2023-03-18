@@ -12,20 +12,20 @@ class Container(TabbedPanel):
         try:
             global rad01, rad02, alf , bet1, t00, t02, bet2, l1, acos0
            
-            # rad01 = int(self.rad01.text)
-            # rad02 = int(self.rad02.text)
-            # alf = float(self.alf.text)*3.14159/180  
-            # bet1 = float(self.bet1.text)*3.14159/180
-            # t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
-            # t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
+            rad01 = int(self.rad01.text)
+            rad02 = int(self.rad02.text)
+            alf = float(self.alf.text)*3.14159/180  
+            bet1 = float(self.bet1.text)*3.14159/180
+            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
+            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
 
             # значения для разработки
-            rad01 = 150
-            rad02 = 228
-            alf = 30*0.1745 
-            bet1 = 45*0.1745
-            t00 = 689
-            t02 = 489
+            # rad01 = 150
+            # rad02 = 228
+            # alf = 30*0.1745 
+            # bet1 = 45*0.1745
+            # t00 = 689
+            # t02 = 489
 
             bet2 = bet1+t02*6.28/t00  
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
@@ -49,10 +49,10 @@ class Container(TabbedPanel):
             try:
                 self.canvas.after.clear()
                 sunX = 350  # центр координат по X
-                # sunY = 700  # центр координат по Y
-                # maxrad = 250  # радиус бОльшей орбиты
-                sunY = 320  # временный центр координат по Y для разработки
-                maxrad = 120  # временный радиус бОльшей орбиты для разработки
+                sunY = 700  # центр координат по Y
+                maxrad = 250  # радиус бОльшей орбиты
+                # sunY = 320  # временный центр координат по Y для разработки
+                # maxrad = 120  # временный радиус бОльшей орбиты для разработки
                 R = maxrad/max(rad01, rad02)  # коэффициент под размер экрана
                 minrad = R*(min(rad01, rad02))  # радиус меньшей орбиты
                 self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 1, 1))
@@ -65,11 +65,9 @@ class Container(TabbedPanel):
                                          color=Color(1, 0, 0))  # координаты финиша объекта и ракеты
                 self.rocket_start = Ellipse(pos=(sunX+rad01*R*math.cos(alf)-10, sunY+rad01*R*math.sin(alf)-10), size=(20, 20), 
                                          color=Color(0, 0, 1))  # координаты старта ракеты
-                # for i_rumb in range(0, 8, 45*0.1745):
-                #     self.rumbs = Line(points=(sunX+maxrad*R*math.cos(i_rumb), sunY+maxrad*R*math.sin(i_rumb),
-                #                               sunX+maxrad*R*1.1*math.cos(i_rumb), sunY+maxrad*R*1.1*math.sin(i_rumb)), 
+                # for i_rumb in range(0, 4, 90*0.1745):
+                #     self.rumbs = Line(points=(sunX, sunY, sunX+maxrad*1.1*math.cos(i_rumb), sunY+maxrad*R*1.1*math.sin(i_rumb)),
                 #                               color=Color(1, 1, 1))
-                #     print(i_rumb)
             except:
                 pass
 
@@ -85,29 +83,29 @@ class Container(TabbedPanel):
                 self.canvas.after.clear()
 
                 # временные параметры ракеты для разработки
-                centX = 500  # центр по оси X
-                centY = 200  # центр низа 1 ступени по оси Y
-                line_width = 1  # толщина линии
-                con_h = 50  # высота конуса
-                con_w = 50  # ширина конуса
-                h3 = 50  # высота 3 ступени
-                h2 = 50  # высота 2 ступени
-                h1 = 50  # высота 1 ступени
-                side_h = 40  # высота бокового ускорителя
-                side_w = 30  # ширина бокового ускорителя
-                n_dus = 3  # количество сопел
-
                 # centX = 500  # центр по оси X
-                # centY = 400  # центр низа 1 ступени по оси Y
+                # centY = 200  # центр низа 1 ступени по оси Y
                 # line_width = 1  # толщина линии
-                # con_h = int(self.con_h.text)  # высота конуса
-                # con_w = int(self.con_w.text)  # ширина конуса
-                # h3 = int(self.h3.text)  # высота 3 ступени
-                # h2 = int(self.h2.text)  # высота 2 ступени
-                # h1 = int(self.h1.text)  # высота 1 ступени
-                # side_h = int(self.side_h.text)  # высота бокового ускорителя
-                # side_w = int(self.side_w.text)  # ширина бокового ускорителя
-                # n_dus = int(self.n_dus.text)  # количество сопел
+                # con_h = 50  # высота конуса
+                # con_w = 50  # ширина конуса
+                # h3 = 50  # высота 3 ступени
+                # h2 = 50  # высота 2 ступени
+                # h1 = 50  # высота 1 ступени
+                # side_h = 40  # высота бокового ускорителя
+                # side_w = 30  # ширина бокового ускорителя
+                # n_dus = 3  # количество сопел
+
+                centX = 500  # центр по оси X
+                centY = 400  # центр низа 1 ступени по оси Y
+                line_width = 1  # толщина линии
+                con_h = int(self.con_h.text)  # высота конуса
+                con_w = int(self.con_w.text)  # ширина конуса
+                h3 = int(self.h3.text)  # высота 3 ступени
+                h2 = int(self.h2.text)  # высота 2 ступени
+                h1 = int(self.h1.text)  # высота 1 ступени
+                side_h = int(self.side_h.text)  # высота бокового ускорителя
+                side_w = int(self.side_w.text)  # ширина бокового ускорителя
+                n_dus = int(self.n_dus.text)  # количество сопел
                 self.con = Line(points=(centX, centY+h1+h2+h3+con_h,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.5,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.1,

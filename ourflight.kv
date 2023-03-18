@@ -8,6 +8,9 @@
             pos: self.pos
             size: self.size
 
+<BtnBoxLayout@BoxLayout>
+    padding: 10
+
 <HBoxLayout@BoxLayout>
     padding: 3
 
@@ -17,8 +20,8 @@
 <MyButton@Button>
     halign: 'center'
     valign: 'middle'
-    color: (1, 0, 0, 1)
-    background_color: (0, 0.05, 0.1, 1)
+    color: (1, 1, 1, 1)
+    background_color: (0.4, 0.55, 0.56, 1)
     background_normal: ''
     canvas.before:
         Color:
@@ -141,7 +144,7 @@
     padding: 10
     canvas.before:
         Color: 
-            rgba: (1, 1, 1, 1)
+            rgba: (0.98, 0.98, 0.73, 1)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -196,9 +199,10 @@
                         values: 'сут', 'год'
                 
             VBoxLayout:
-                MyButton:
-                    text: '[b]ТРАЕКТОРИЯ[/b]'
-                    on_release: root.pathed()
+                BtnBoxLayout: 
+                    MyButton:
+                        text: '[b]ТРАЕКТОРИЯ[/b]'
+                        on_release: root.pathed()
                 Label:
                     text: 'Длина пути ракеты...'
                     id: lbl_l1
@@ -226,11 +230,11 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
-                HBoxLayout:
+                BtnBoxLayout:
                     MyButton:
                         text: '[b]ЧЕРТЁЖ[/b]'
                         on_release: root.draw_path()
-                HBoxLayout:
+                BtnBoxLayout:
                     MyButton:
                         text: '[b]ОЧИСТКА[/b]'
                         on_release: root.clear_path()
@@ -283,11 +287,11 @@
                             id: n_dus
                             text: 'Кол-во'
                             values: (str(n) for n in range(1, 7))
-                    HBoxLayout:
+                    BtnBoxLayout:
                         MyButton:
                             text: '[b]ЧЕРТЁЖ[/b]'
                             on_release: root.draw_rocket()
-                    HBoxLayout:
+                    BtnBoxLayout:
                         MyButton:
                             text: '[b]ОЧИСТКА[/b]'
                             on_release: root.clear_rocket()
@@ -321,14 +325,14 @@
                     id: period0_time
                     text: 'Размерность'
                     values: ('час', 'сут', 'год')
-            HBoxLayout:
+            BtnBoxLayout:
                 MyButton:
                     text: '[b]ДЛИНА ОКРУЖНОСТИ[/b]'
                     on_release: root.circum()
                 LLabel:
                     id: lbl_orb
                     text: ' Длина окружности...'
-            HBoxLayout:
+            BtnBoxLayout:
                 MyButton:
                     text: '[b]СКОРОСТЬ[/b]'
                     on_release: root.vel0()
@@ -349,9 +353,10 @@
                     text: 'Размерность скорости'
                     values: 'км/час', 'км/сут', 'км/год'
             HBoxLayout:
-                MyButton:
-                    text: '[b]ПЕРЕВОД[/b]'
-                    on_release: root.vel3()
+                BtnBoxLayout: 
+                    MyButton:
+                        text: '[b]ПЕРЕВОД[/b]'
+                        on_release: root.vel3()
                 LLabel:
                     id: lbl_v3
                     text: ' В других единицах...'
@@ -365,9 +370,10 @@
                 LLabel:
                     text: ' а.е.'
             HBoxLayout:
-                MyButton:
-                    text: '[b]КИЛОМЕТРЫ[/b]'
-                    on_release: root.ae()
+                BtnBoxLayout: 
+                    MyButton:
+                        text: '[b]КИЛОМЕТРЫ[/b]'
+                        on_release: root.ae()
                 LLabel:
                     id: lbl_ae
                     text: ' В млн км это...'
@@ -386,9 +392,10 @@
                 TextInput:
                     id: cat2
             HBoxLayout:
-                MyButton:
-                    text: '[b]ГИПОТЕНУЗА[/b]'
-                    on_release: root.pifagor()
+                BtnBoxLayout: 
+                    MyButton:
+                        text: '[b]ГИПОТЕНУЗА[/b]'
+                        on_release: root.pifagor()
                 LLabel:
                     id: lbl_gipot
                     text: ' Гипотенуза...'
@@ -461,7 +468,7 @@
                     id: lbl_cargo
                     text: '... тонн груза'
 
-            HBoxLayout:
+            BtnBoxLayout:
                 MyButton:
                     text: '[b]СТОИМОСТЬ[/b]'
                     on_release: root.priced()
