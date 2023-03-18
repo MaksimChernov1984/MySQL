@@ -11,21 +11,21 @@ class Container(TabbedPanel):
     def pathed(self):
         try:
             global rad01, rad02, alf , bet1, t00, t02, bet2, l1, acos0
+           
+            # rad01 = int(self.rad01.text)
+            # rad02 = int(self.rad02.text)
+            # alf = float(self.alf.text)*3.14159/180  
+            # bet1 = float(self.bet1.text)*3.14159/180
+            # t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
+            # t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
 
-			# значения для разработки
-            #rad01 = 150
-            #rad02 = 228
-            #alf = 30*3.14159/180  
-            #bet1 = 45*3.14159/180
-            #t00 = 689
-            #t02 = 689
-            
-            rad01 = int(self.rad01.text)
-            rad02 = int(self.rad02.text)
-            alf = float(self.alf.text)*3.14159/180  
-            bet1 = float(self.bet1.text)*3.14159/180
-            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
-            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
+            # значения для разработки
+            rad01 = 150
+            rad02 = 228
+            alf = 30*0.1745 
+            bet1 = 45*0.1745
+            t00 = 689
+            t02 = 489
 
             bet2 = bet1+t02*6.28/t00  
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
@@ -48,17 +48,28 @@ class Container(TabbedPanel):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
-                sunX = 350
-                sunY = 700
-                R = 250/max(rad01, rad02)
-                maxrad = 250
-                minrad = R*(min(rad01, rad02))
-                #maxrad = max(rad01, rad02)
-                #minrad = min(rad01, rad02)
+                sunX = 350  # центр координат по X
+                # sunY = 700  # центр координат по Y
+                # maxrad = 250  # радиус бОльшей орбиты
+                sunY = 320  # временный центр координат по Y для разработки
+                maxrad = 120  # временный радиус бОльшей орбиты для разработки
+                R = maxrad/max(rad01, rad02)  # коэффициент под размер экрана
+                minrad = R*(min(rad01, rad02))  # радиус меньшей орбиты
                 self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 1, 1))
                 self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(0.31, 0.35, 0.35))                    
                 self.path = Line(points=(sunX+rad01*R*math.cos(alf), sunY+rad01*R*math.sin(alf),
                                         sunX+rad02*R*math.cos(bet2), sunY+rad02*R*math.sin(bet2)), color=Color(0,0,1), width=2)
+                self.obj_start = Ellipse(pos=(sunX+rad02*R*math.cos(bet1)-10, sunY+rad02*R*math.sin(bet1)-10), size=(20, 20), 
+                                         color=Color(0.92, 0.7, 0.68))  # координаты старта объекта
+                self.finish = Ellipse(pos=(sunX+rad02*R*math.cos(bet2)-10, sunY+rad02*R*math.sin(bet2)-10), size=(20, 20), 
+                                         color=Color(1, 0, 0))  # координаты финиша объекта и ракеты
+                self.rocket_start = Ellipse(pos=(sunX+rad01*R*math.cos(alf)-10, sunY+rad01*R*math.sin(alf)-10), size=(20, 20), 
+                                         color=Color(0, 0, 1))  # координаты старта ракеты
+                # for i_rumb in range(0, 8, 45*0.1745):
+                #     self.rumbs = Line(points=(sunX+maxrad*R*math.cos(i_rumb), sunY+maxrad*R*math.sin(i_rumb),
+                #                               sunX+maxrad*R*1.1*math.cos(i_rumb), sunY+maxrad*R*1.1*math.sin(i_rumb)), 
+                #                               color=Color(1, 1, 1))
+                #     print(i_rumb)
             except:
                 pass
 
