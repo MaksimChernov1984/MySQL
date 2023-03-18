@@ -83,67 +83,95 @@ class Container(TabbedPanel):
         with self.canvas.after:
             try:
                 self.canvas.after.clear()
+
+                # временные параметры ракеты для разработки
                 centX = 500  # центр по оси X
-                centY = 400  # центр низа 1 ступени по оси Y
+                centY = 200  # центр низа 1 ступени по оси Y
                 line_width = 1  # толщина линии
-                con_h = int(self.con_h.text)  # высота конуса
-                con_w = int(self.con_w.text)  # ширина конуса
-                h3 = int(self.h3.text)  # высота 3 ступени
-                h2 = int(self.h2.text)  # высота 2 ступени
-                h1 = int(self.h1.text)  # высота 1 ступени
-                side_h = int(self.side_h.text)  # высота бокового ускорителя
-                side_w = int(self.side_w.text)  # ширина бокового ускорителя
-                n_dus = int(self.n_dus.text)  # количество сопел
+                con_h = 50  # высота конуса
+                con_w = 50  # ширина конуса
+                h3 = 50  # высота 3 ступени
+                h2 = 50  # высота 2 ступени
+                h1 = 50  # высота 1 ступени
+                side_h = 40  # высота бокового ускорителя
+                side_w = 30  # ширина бокового ускорителя
+                n_dus = 3  # количество сопел
+
+                # centX = 500  # центр по оси X
+                # centY = 400  # центр низа 1 ступени по оси Y
+                # line_width = 1  # толщина линии
+                # con_h = int(self.con_h.text)  # высота конуса
+                # con_w = int(self.con_w.text)  # ширина конуса
+                # h3 = int(self.h3.text)  # высота 3 ступени
+                # h2 = int(self.h2.text)  # высота 2 ступени
+                # h1 = int(self.h1.text)  # высота 1 ступени
+                # side_h = int(self.side_h.text)  # высота бокового ускорителя
+                # side_w = int(self.side_w.text)  # ширина бокового ускорителя
+                # n_dus = int(self.n_dus.text)  # количество сопел
                 self.con = Line(points=(centX, centY+h1+h2+h3+con_h,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.5,
                                         centX+con_w*0.6, centY+h1+h2+h3+con_h*0.1,
                                         centX+con_w*0.5, centY+h1+h2+h3,
                                         centX-con_w*0.5, centY+h1+h2+h3,
                                         centX-con_w*0.6, centY+h1+h2+h3+con_h*0.1,
-                                        centX-con_w*0.6, centY+h1+h2+h3+con_h*0.5), close=True, width=line_width)  # конус
-                self.illuminator = Ellipse(pos=(centX-con_w*0.1, centY+h1+h2+h3+con_h*0.3), size=(con_w*0.2, con_w*0.2))  # иллюминатор
+                                        centX-con_w*0.6, centY+h1+h2+h3+con_h*0.5), 
+                                        close=True, width=line_width, color=Color(1, 1, 1))  # конус
+                self.illuminator = Ellipse(pos=(centX-con_w*0.1, centY+h1+h2+h3+con_h*0.3), 
+                                           size=(con_w*0.2, con_w*0.2), color=Color(1, 1, 1))  # иллюминатор
                 self.h3_rect = Line(points=(centX+con_w*0.5, centY+h1+h2+h3,
                                             centX+con_w*0.5, centY+h1+h2,
                                             centX-con_w*0.5, centY+h1+h2,
-                                            centX-con_w*0.5, centY+h1+h2+h3), close=True, width=line_width)  # 3 ступень
+                                            centX-con_w*0.5, centY+h1+h2+h3), 
+                                            close=True, width=line_width, color=Color(1, 1, 1))  # 3 ступень
                 self.wing_left = Line(points=(centX-con_w*0.5, centY+h1+h2+h3*0.6,
                                               centX-con_w*0.5, centY+h1+h2+h3*0.3,
-                                              centX-con_w*0.8, centY+h1+h2+h3*0.3), close=True, width=line_width)  # левое крыло
+                                              centX-con_w*0.8, centY+h1+h2+h3*0.3), 
+                                              close=True, width=line_width, color=Color(1, 1, 1))  # левое крыло
                 self.wing_right = Line(points=(centX+con_w*0.5, centY+h1+h2+h3*0.6,
                                               centX+con_w*0.5, centY+h1+h2+h3*0.3,
-                                              centX+con_w*0.8, centY+h1+h2+h3*0.3), close=True, width=line_width)  # правое крыло
+                                              centX+con_w*0.8, centY+h1+h2+h3*0.3), 
+                                              close=True, width=line_width, color=Color(1, 1, 1))  # правое крыло
                 self.h2_rect = Line(points=(centX+con_w*0.55, centY+h1+h2,
                                             centX+con_w*0.55, centY+h1,
                                             centX-con_w*0.55, centY+h1,
-                                            centX-con_w*0.55, centY+h1+h2), close=True, width=line_width)  # 2 ступень
+                                            centX-con_w*0.55, centY+h1+h2), 
+                                            close=True, width=line_width, color=Color(1, 1, 1))  # 2 ступень
                 self.h1_rect = Line(points=(centX+con_w*0.6, centY+h1,
                                             centX+con_w*0.6, centY,
                                             centX-con_w*0.6, centY,
-                                            centX-con_w*0.6, centY+h1), close=True, width=line_width)  # 1 ступень
+                                            centX-con_w*0.6, centY+h1), 
+                                            close=True, width=line_width, color=Color(1, 1, 1))  # 1 ступень
                 self.side_left_tri = Line(points=(centX-con_w*0.6-side_w*0.5, centY+side_h*1.3,
                                                   centX-con_w*0.6, centY+side_h,
-                                                  centX-con_w*0.6-side_w, centY+side_h), close=True, width=line_width)  # кон.лев.бок.ускор.
+                                                  centX-con_w*0.6-side_w, centY+side_h), 
+                                                  close=True, width=line_width, color=Color(1, 1, 1))  # кон.лев.бок.ускор.
                 self.side_left_rect = Line(points=(centX-con_w*0.6, centY+side_h,
                                                    centX-con_w*0.6, centY,
                                                    centX-con_w*0.6-side_w, centY,
-                                                   centX-con_w*0.6-side_w, centY+side_h), close=True, width=line_width)  # левый бок.ускор.
+                                                   centX-con_w*0.6-side_w, centY+side_h), 
+                                                   close=True, width=line_width, color=Color(1, 1, 1))  # левый бок.ускор.
                 self.side_right_tri = Line(points=(centX+con_w*0.6+side_w*0.5, centY+side_h*1.3,
                                                    centX+con_w*0.6, centY+side_h,
-                                                   centX+con_w*0.6+side_w, centY+side_h), close=True, width=line_width)  # кон.прав.бок.ускор.
+                                                   centX+con_w*0.6+side_w, centY+side_h), 
+                                                   close=True, width=line_width, color=Color(1, 1, 1))  # кон.прав.бок.ускор.
                 self.side_right_rect = Line(points=(centX+con_w*0.6, centY+side_h,
                                                    centX+con_w*0.6, centY,
                                                    centX+con_w*0.6+side_w, centY,
-                                                   centX+con_w*0.6+side_w, centY+side_h), close=True, width=line_width)  #  правый бок.ускор.
+                                                   centX+con_w*0.6+side_w, centY+side_h), 
+                                                   close=True, width=line_width, color=Color(1, 1, 1))  #  правый бок.ускор.
                 self.side_left_duse_tri = Line(points=(centX-con_w*0.6-side_w*0.5, centY,
                                                        centX-con_w*0.6-side_w*0.2, centY-h1*0.2,
-                                                       centX-con_w*0.6-side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # левый дюз
+                                                       centX-con_w*0.6-side_w*0.8, centY-h1*0.2), 
+                                                       close=True, width=line_width, color=Color(1, 1, 1))  # левый дюз
                 self.side_right_duse_tri = Line(points=(centX+con_w*0.6+side_w*0.5, centY,
                                                         centX+con_w*0.6+side_w*0.2, centY-h1*0.2,
-                                                        centX+con_w*0.6+side_w*0.8, centY-h1*0.2), close=True, width=line_width)  # правый дюз
+                                                        centX+con_w*0.6+side_w*0.8, centY-h1*0.2), 
+                                                        close=True, width=line_width, color=Color(1, 1, 1))  # правый дюз
                 for i_dus in range(1, n_dus+1):
                     self.duse = Line(points=(centX-con_w*0.6+(con_w*1.2/(n_dus+1))*i_dus, centY,
                                              centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus-side_w*0.3), centY-h1*0.2,
-                                             centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus+side_w*0.3), centY-h1*0.2), close=True, width=line_width)  # средние дюзы
+                                             centX-con_w*0.6+(con_w*1.2/(n_dus+1)*i_dus+side_w*0.3), centY-h1*0.2), 
+                                             close=True, width=line_width, color=Color(1, 1, 1))  # средние дюзы
             except:
                 pass
 
