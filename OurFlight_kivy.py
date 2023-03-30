@@ -12,20 +12,20 @@ class Container(TabbedPanel):
         try:
             global rad01, rad02, alf , bet1, t00, t02, bet2, l1, acos0
            
-            # rad01 = int(self.rad01.text)
-            # rad02 = int(self.rad02.text)
-            # alf = float(self.alf.text)*3.14159/180  
-            # bet1 = float(self.bet1.text)*3.14159/180
-            # t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
-            # t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
+            rad01 = int(self.rad01.text)
+            rad02 = int(self.rad02.text)
+            alf = float(self.alf.text)*3.14159/180  
+            bet1 = float(self.bet1.text)*3.14159/180
+            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
+            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
 
             # значения для разработки
-            rad01 = 150
-            rad02 = 228
-            alf = 30*0.1745 
-            bet1 = 45*0.1745
-            t00 = 689
-            t02 = 489
+            # rad01 = 150
+            # rad02 = 228
+            # alf = 30*0.1745 
+            # bet1 = 45*0.1745
+            # t00 = 689
+            # t02 = 489
 
             bet2 = bet1+t02*6.28/t00  
             l1 = ((rad02*math.cos(bet2)-rad01*math.cos(alf))**2+
@@ -51,10 +51,10 @@ class Container(TabbedPanel):
                 sunX = 350  # центр координат по X
                 sunY = 700  # центр координат по Y
                 maxrad = 250  # радиус бОльшей орбиты
-                sunY = 320  # временный центр координат по Y для разработки
-                maxrad = 120  # временный радиус бОльшей орбиты для разработки
-                R = maxrad/max(rad01, rad02)  # коэффициент под размер экрана
-                minrad = R*(min(rad01, rad02))  # радиус меньшей орбиты
+                # sunY = 320  # временный центр координат по Y для разработки
+                # maxrad = 120  # временный радиус бОльшей орбиты для разработки
+                Ra = maxrad/max(rad01, rad02)  # коэффициент под размер экрана
+                minrad = Ra*(min(rad01, rad02))  # радиус меньшей орбиты
                 self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 1, 1))  # орбита 2
                 self.orbit2a = Ellipse(pos=(sunX-maxrad+1, sunY-maxrad+1), size=(maxrad*2-2, maxrad*2-2), color=Color(0, 0.05, 0.1))  # линия орбиты 2
                 self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(1, 1, 1))  # орбита 1
