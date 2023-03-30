@@ -64,16 +64,16 @@ class Container(TabbedPanel):
                 self.axX = Line(points=(sunX+maxrad+20, sunY, sunX-maxrad-20, sunY), 
                                 color=Color(1,1,1), width=1)  # ось Y
                 self.orbit_center = Ellipse(pos=(sunX-10, sunY-10), size=(20, 20), color=Color(0.98, 0.98, 0.73))  # центр                    
-                self.path = Line(points=(sunX+rad01*R*math.cos(alf), sunY+rad01*R*math.sin(alf),
-                                        sunX+rad02*R*math.cos(bet2), sunY+rad02*R*math.sin(bet2)), 
+                self.path = Line(points=(sunX+rad01*Ra*math.cos(alf), sunY+rad01*Ra*math.sin(alf),
+                                        sunX+rad02*Ra*math.cos(bet2), sunY+rad02*Ra*math.sin(bet2)), 
                                         color=Color(0,0,1), width=2)
-                self.obj_start = Ellipse(pos=(sunX+rad02*R*math.cos(bet1)-10, sunY+rad02*R*math.sin(bet1)-10), 
+                self.obj_start = Ellipse(pos=(sunX+rad02*Ra*math.cos(bet1)-10, sunY+rad02*Ra*math.sin(bet1)-10), 
                                          size=(20, 20), color=Color(1, 0, 0))  # координаты старта объекта
-                self.obj_start_a = Ellipse(pos=(sunX+rad02*R*math.cos(bet1)-9, sunY+rad02*R*math.sin(bet1)-9), 
+                self.obj_start_a = Ellipse(pos=(sunX+rad02*Ra*math.cos(bet1)-9, sunY+rad02*Ra*math.sin(bet1)-9), 
                                            size=(18, 18), color=Color(0, 0.05, 0.1))  # координаты старта объекта (заливка)
-                self.finish = Ellipse(pos=(sunX+rad02*R*math.cos(bet2)-10, sunY+rad02*R*math.sin(bet2)-10), 
+                self.finish = Ellipse(pos=(sunX+rad02*Ra*math.cos(bet2)-10, sunY+rad02*Ra*math.sin(bet2)-10), 
                                       size=(20, 20), color=Color(1, 0, 0))  # координаты финиша объекта и ракеты
-                self.rocket_start = Ellipse(pos=(sunX+rad01*R*math.cos(alf)-10, sunY+rad01*R*math.sin(alf)-10), 
+                self.rocket_start = Ellipse(pos=(sunX+rad01*Ra*math.cos(alf)-10, sunY+rad01*Ra*math.sin(alf)-10), 
                                             size=(20, 20), color=Color(0, 0, 1))  # координаты старта ракеты
             except:
                 pass
