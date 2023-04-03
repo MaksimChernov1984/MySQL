@@ -1,6 +1,7 @@
 import math
 from kivy.app import App
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.label import Label
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Ellipse, Line)
@@ -55,9 +56,15 @@ class Container(TabbedPanel):
                 # maxrad = 120  # временный радиус бОльшей орбиты для разработки
                 Ra = maxrad/max(rad01, rad02)  # коэффициент под размер экрана
                 minrad = Ra*(min(rad01, rad02))  # радиус меньшей орбиты
-                self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 1, 1))  # орбита 2
+                if rad01 < rad02:
+                    self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(1, 0, 0))  # орбита 2
+                else:
+                    self.orbit2 = Ellipse(pos=(sunX-maxrad, sunY-maxrad), size=(maxrad*2, maxrad*2), color=Color(0, 0, 1))  # орбита 2
                 self.orbit2a = Ellipse(pos=(sunX-maxrad+1, sunY-maxrad+1), size=(maxrad*2-2, maxrad*2-2), color=Color(0, 0.05, 0.1))  # линия орбиты 2
-                self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(1, 1, 1))  # орбита 1
+                if rad01 < rad02:
+                    self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(0, 0, 1))  # орбита 1
+                else:
+                    self.orbit1 = Ellipse(pos=(sunX-minrad, sunY-minrad), size=(minrad*2, minrad*2), color=Color(1, 0, 0))  # орбита 1
                 self.orbit1a = Ellipse(pos=(sunX-minrad+1, sunY-minrad+1), size=(minrad*2-2, minrad*2-2), color=Color(0, 0.05, 0.1))  # линия орбиты 1
                 self.axX = Line(points=(sunX, sunY+maxrad+20, sunX, sunY-maxrad-20), 
                                 color=Color(1,1,1), width=1)  # ось X
@@ -66,7 +73,7 @@ class Container(TabbedPanel):
                 self.orbit_center = Ellipse(pos=(sunX-10, sunY-10), size=(20, 20), color=Color(0.98, 0.98, 0.73))  # центр                    
                 self.path = Line(points=(sunX+rad01*Ra*math.cos(alf), sunY+rad01*Ra*math.sin(alf),
                                         sunX+rad02*Ra*math.cos(bet2), sunY+rad02*Ra*math.sin(bet2)), 
-                                        color=Color(0,0,1), width=2)
+                                        color=Color(0,1,0), width=2)  # траектория ракеты
                 self.obj_start = Ellipse(pos=(sunX+rad02*Ra*math.cos(bet1)-10, sunY+rad02*Ra*math.sin(bet1)-10), 
                                          size=(20, 20), color=Color(1, 0, 0))  # координаты старта объекта
                 self.obj_start_a = Ellipse(pos=(sunX+rad02*Ra*math.cos(bet1)-9, sunY+rad02*Ra*math.sin(bet1)-9), 

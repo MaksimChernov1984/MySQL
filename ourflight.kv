@@ -144,7 +144,7 @@
     padding: 10
     canvas.before:
         Color: 
-            rgba: (0.98, 0.98, 0.73, 1)
+            rgba: (1, 1, 1, 1)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -222,14 +222,20 @@
                 HBoxLayout:
                     Label:
                         text: '[b]Чертёж траектории полёта[/b]'
-                HBoxLayout:
+                VBoxLayout:
                     size_hint_y: 3
-                    canvas:
-                        Color:
-                            rgba: (0, 0.05, 0.1, 1)
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
+                    Label:
+                        text: '90'
+                    HBoxLayout:
+                        BoxLayout:
+                            LLabel:
+                                text: '180'
+                            RLabel:
+                                text: '0'
+                    Label:
+                        text: '270'
+
+                    
                 BtnBoxLayout:
                     MyButton:
                         text: '[b]ЧЕРТЁЖ[/b]'
