@@ -265,20 +265,22 @@ class Container(TabbedPanel):
         try:
             s = self.spn_start.text  # стартовый объект
             d = self.spn_destination.text  # объект назначения
-            sun_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Церера': 414, 'Ио': 778, 'Европа': 778, 
+            sun_dict = {'Земля': 150, 'Луна': 149, 'Меркурий': 58, 'Венера': 108, 'Марс': 228, 'Веста': 353, 'Церера': 414, 'Ио': 778, 'Европа': 778, 
                         'Ганимед': 778, 'Каллисто': 778,  'Титан': 1430, 'Титания': 2877, 'Тритон': 4503, 'Плутон': 5900, 
                         'Эрида': 10200}   # полуоси объектов
             earth_dict = {'Земля': 0, 'Луна': 1}
             jupiter_dict = {'Ио': 1, 'Европа': 2, 'Ганимед': 3, 'Каллисто': 4}
-            if s and d in sun_dict:
-                i_s = sun_dict[s]
-                i_d = sun_dict[d]
-            elif s and d in earth_dict:  # если старт и финиш в локальной системе Земли
+
+            if s in earth_dict and d in earth_dict:  # если старт и финиш в локальной системе Земли
                 i_s = earth_dict[s]
                 i_d = earth_dict[d]
-            elif s and d in jupiter_dict:  # если старт и финиш в локальной системе Юпитера
+            elif s in jupiter_dict and d in jupiter_dict:  # если старт и финиш в локальной системе Юпитера
                 i_s = jupiter_dict[s]
                 i_d = jupiter_dict[d]
+            elif s and d in sun_dict:
+                i_s = sun_dict[s]
+                i_d = sun_dict[d]
+                
             side = self.spn_side.text  # сторона относительно центра
             t = self.spn_tariff.text
             t_dict = {'простой': 1, 'быстрый': 2, 'супербыстрый': 3}  # коэффициенты тарифа
