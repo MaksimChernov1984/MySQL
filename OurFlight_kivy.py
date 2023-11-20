@@ -13,12 +13,12 @@ class Container(TabbedPanel):
         try:
             global rad01, rad02, alf , bet1, t00, t02, bet2, l1, acos0
            
-            rad01 = int(self.rad01.text)
-            rad02 = int(self.rad02.text)
+            rad01 = float(self.rad01.text)
+            rad02 = float(self.rad02.text)
             alf = float(self.alf.text)*3.14159/180  
             bet1 = float(self.bet1.text)*3.14159/180
-            t00 = int(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
-            t02 = int(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
+            t00 = float(self.t00.text) if self.spn_p00.text == 'сут' else int(self.t00.text)*365
+            t02 = float(self.t02.text) if self.spn_p02.text == 'сут' else int(self.t02.text)*365 
 
             # значения для разработки
             # rad01 = 150
